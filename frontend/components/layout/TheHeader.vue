@@ -81,26 +81,26 @@ export default {
   data() {
     return {
       dialog: false,
-      // items: [
-      //   {
-      //     title: "Profile",
-      //     click() {
-      //       this.$router.push("/profile");
-      //     },
-      //   },
-      //   {
-      //     title: "Settings",
-      //     click() {
-      //       this.$router.push("/settings");
-      //     },
-      //   },
-      //   {
-      //     title: "Logout",
-      //     click() {
-      //       this.dialog = true;
-      //     },
-      //   },
-      // ],
+      items: [
+        {
+          title: "Profile",
+          click() {
+            this.$router.push("/profile");
+          },
+        },
+        {
+          title: "Settings",
+          click() {
+            this.$router.push("/settings");
+          },
+        },
+        {
+          title: "Logout",
+          click() {
+            this.dialog = true;
+          },
+        },
+      ],
       breadcrumbsLeft: [
         {
           text: 'Test1',
