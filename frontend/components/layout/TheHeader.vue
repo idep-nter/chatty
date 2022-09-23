@@ -2,13 +2,20 @@
   <v-card height="30px">
     <v-toolbar extend>
       <NuxtLink to="/" class="links">
-        <v-row>
+        <v-row class="mr-1">
           <v-icon class="ml-5 mr-2 icon" medium> mdi-bird </v-icon>
           <v-toolbar-title class="headline font-weight-bold">{{
             title
           }}</v-toolbar-title>
         </v-row>
       </NuxtLink>
+      <v-breadcrumbs :items="breadcrumbsLeft">
+            <template v-slot:item="{ item }">
+              <v-breadcrumbs-item :href="item.href" :disabled="item.disabled">
+                {{ item.text.toUpperCase() }}
+              </v-breadcrumbs-item>
+            </template>
+          </v-breadcrumbs>
       <v-spacer></v-spacer>
 
       <div class="right">
@@ -44,9 +51,16 @@
           </v-dialog>
         </template>
 
-        <NuxtLink to="/auth/login" class="links" v-else>
+        <!-- <NuxtLink to="/auth/login" class="links" v-else>
           <v-btn color="primary" :small="buttonSize">Sign in</v-btn>
-        </NuxtLink>
+        </NuxtLink> -->
+          <v-breadcrumbs :items="breadcrumbsRight">
+            <template v-slot:item="{ item }">
+              <v-breadcrumbs-item :href="item.href" :disabled="item.disabled">
+                {{ item.text.toUpperCase() }}
+              </v-breadcrumbs-item>
+            </template>
+          </v-breadcrumbs>
       </div>
     </v-toolbar>
   </v-card>
@@ -67,24 +81,48 @@ export default {
   data() {
     return {
       dialog: false,
-      items: [
+      // items: [
+      //   {
+      //     title: "Profile",
+      //     click() {
+      //       this.$router.push("/profile");
+      //     },
+      //   },
+      //   {
+      //     title: "Settings",
+      //     click() {
+      //       this.$router.push("/settings");
+      //     },
+      //   },
+      //   {
+      //     title: "Logout",
+      //     click() {
+      //       this.dialog = true;
+      //     },
+      //   },
+      // ],
+      breadcrumbsLeft: [
         {
-          title: "Profile",
-          click() {
-            this.$router.push("/profile");
-          },
+          text: 'Test1',
+          disabled: false,
+          href: 'auth/login',
         },
         {
-          title: "Settings",
-          click() {
-            this.$router.push("/settings");
-          },
+          text: 'Test2',
+          disabled: false,
+          href: 'auth/login',
         },
         {
-          title: "Logout",
-          click() {
-            this.dialog = true;
-          },
+          text: 'Test2',
+          disabled: false,
+          href: 'auth/login',
+        },
+      ],
+      breadcrumbsRight: [
+        {
+          text: 'login',
+          disabled: false,
+          href: 'auth/login',
         },
       ],
     };
@@ -92,7 +130,7 @@ export default {
   computed: {
     loggedIn() {
       // return this.$store.getters['auth/loggedIn'];
-      return true;
+      return false;
     },
     title() {
       switch (this.$vuetify.breakpoint.name) {
@@ -115,14 +153,15 @@ export default {
     logout() {
       this.dialog = false;
       // this.$store.dispatch('auth/logout');
-      this.$router.replace('/');
+      this.$router.replace("/");
     },
     closeDialog() {
       this.dialog = false;
     },
     handleClick(index) {
-      this.items[index].click.call(this)
-    }
+      this.items[index].click.call(this);
+    },
+    goTo(payload) {},
   },
 };
 </script>
