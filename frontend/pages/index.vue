@@ -2,7 +2,7 @@
   <v-container>
     <v-container class="mt-15 d-flex justify-center">
       <v-icon class="ml-5 mr-2 icon" color="primary" x-large> mdi-bird </v-icon>
-      <h1>CH-CH-CHATTY!</h1>
+      <h1>CHA-CHA-CHATTY!</h1>
     </v-container>
     <v-container class="mt-5">
       <div class="d-flex justify-center">

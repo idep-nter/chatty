@@ -9,13 +9,13 @@
           }}</v-toolbar-title>
         </v-row>
       </NuxtLink>
-      <v-breadcrumbs :items="breadcrumbsLeft">
-            <template v-slot:item="{ item }">
-              <v-breadcrumbs-item :href="item.href" :disabled="item.disabled">
-                {{ item.text.toUpperCase() }}
-              </v-breadcrumbs-item>
-            </template>
-          </v-breadcrumbs>
+      <v-breadcrumbs :items="breadcrumbs">
+        <template v-slot:item="{ item }">
+          <v-breadcrumbs-item :href="item.href" :disabled="item.disabled">
+            {{ item.text.toUpperCase() }}
+          </v-breadcrumbs-item>
+        </template>
+      </v-breadcrumbs>
       <v-spacer></v-spacer>
 
       <div class="right">
@@ -43,7 +43,8 @@
               </v-list>
             </v-menu>
           </div>
-          <v-dialog v-model="dialog" max-width="320">
+
+          <v-dialog v-model="logoutDialog" max-width="320">
             <layout-the-dialog @disagree="closeDialog" @agree="logout"
               >>
               <template v-slot:text> Do you really want to logout? </template>
@@ -51,36 +52,125 @@
           </v-dialog>
         </template>
 
-        <!-- <NuxtLink to="/auth/login" class="links" v-else>
-          <v-btn color="primary" :small="buttonSize">Sign in</v-btn>
-        </NuxtLink> -->
-          <v-breadcrumbs :items="breadcrumbsRight">
-            <template v-slot:item="{ item }">
-              <v-breadcrumbs-item :href="item.href" :disabled="item.disabled">
-                {{ item.text.toUpperCase() }}
-              </v-breadcrumbs-item>
-            </template>
-          </v-breadcrumbs>
+        <v-dialog v-model="loginDialog" max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" color="primary" :small="true"
+              >Sign in</v-btn
+            >
+          </template>
+
+          <v-card>
+            <v-container>
+              <v-alert
+                dense
+                outlined
+                type="error"
+                v-if="errorMessage"
+                class="justify-center mx-auto mt-15 logAlert"
+                max-width="500"
+              >
+                {{ errorMessage }}
+              </v-alert>
+              <h1>
+                {{ authTypeSwitch }}
+              </h1>
+              <v-form
+                ref="form"
+                v-model="valid"
+                lazy-validation
+                class="pa-sm-4"
+              >
+                <v-text-field
+                  v-model="username"
+                  :rules="usrModeRules"
+                  :counter="showCounter"
+                  label="Username"
+                  required
+                ></v-text-field>
+
+                <v-text-field
+                  v-model="email"
+                  :rules="emailRules"
+                  label="E-mail"
+                  required
+                  v-if="this.isLogin === false"
+                ></v-text-field>
+
+                <v-text-field
+                  autocomplete="current-password"
+                  :value="password"
+                  label="Password"
+                  :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
+                  @click:append="() => (value = !value)"
+                  :type="value ? 'password' : 'text'"
+                  :rules="pswModeRules"
+                  @input="(_) => (password = _)"
+                ></v-text-field>
+
+                <v-text-field
+                  v-if="this.isLogin === false"
+                  autocomplete="current-password"
+                  :value="password2"
+                  label="Confirm password"
+                  :append-icon="value2 ? 'mdi-eye' : 'mdi-eye-off'"
+                  @click:append="() => (value2 = !value2)"
+                  :type="value2 ? 'password' : 'text'"
+                  :rules="password2Rule"
+                  @input="(_) => (password2 = _)"
+                ></v-text-field>
+
+                <v-container v-if="this.isLogin === true">
+                  <v-container class="mt-8 justify-center d-flex">
+                    <v-btn
+                      color="primary"
+                      :small="buttonSize"
+                      :disabled="!valid"
+                      class="mr-4"
+                      @click="submitForm"
+                    >
+                      Log in
+                    </v-btn>
+                    <v-btn
+                      color="primary"
+                      @click="toggleAuth()"
+                      :small="buttonSize"
+                      class="mr-4"
+                      >Sign up instead</v-btn
+                    >
+                  </v-container>
+                  <v-container class="mt-8 justify-center d-flex">
+                    <a href="/">Forgot password?</a>
+                  </v-container>
+                </v-container>
+                <v-container class="mt-8 justify-center d-flex" v-else>
+                  <v-btn
+                    color="primary"
+                    :disabled="!valid"
+                    class="mr-4"
+                    @click="submitForm"
+                  >
+                    Sign in
+                  </v-btn>
+                  <v-btn color="primary" @click="toggleAuth()" class="mr-4"
+                    >Log in instead</v-btn
+                  >
+                </v-container>
+              </v-form>
+            </v-container>
+          </v-card>
+        </v-dialog>
       </div>
     </v-toolbar>
   </v-card>
 </template>
 
-<style lang="scss" scoped>
-.links {
-  text-decoration: none;
-  color: $primaryColor;
-}
-.icon {
-  color: $primaryColor;
-}
-</style>
-
 <script>
 export default {
   data() {
     return {
-      dialog: false,
+      loginDialog: false,
+      logoutDialog: false,
+      isLogin: true,
       items: [
         {
           title: "Profile",
@@ -101,33 +191,33 @@ export default {
           },
         },
       ],
-      breadcrumbsLeft: [
+      breadcrumbs: [
         {
-          text: 'Test1',
+          text: "Test1",
           disabled: false,
-          href: 'auth/login',
+          href: "auth/login",
         },
         {
-          text: 'Test2',
+          text: "Test2",
           disabled: false,
-          href: 'auth/login',
+          href: "auth/login",
         },
         {
-          text: 'Test2',
+          text: "Test2",
           disabled: false,
-          href: 'auth/login',
-        },
-      ],
-      breadcrumbsRight: [
-        {
-          text: 'login',
-          disabled: false,
-          href: 'auth/login',
+          href: "auth/login",
         },
       ],
     };
   },
   computed: {
+    authTypeSwitch() {
+      if (this.isLogin === true) {
+        return "Login";
+      } else {
+        return "Register";
+      }
+    },
     loggedIn() {
       // return this.$store.getters['auth/loggedIn'];
       return false;
@@ -138,14 +228,6 @@ export default {
           return "C";
         default:
           return "CHATTY";
-      }
-    },
-    buttonSize() {
-      switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return true;
-        default:
-          return false;
       }
     },
   },
@@ -161,7 +243,31 @@ export default {
     handleClick(index) {
       this.items[index].click.call(this);
     },
-    goTo(payload) {},
+    toggleAuth() {
+      this.isLogin = this.isLogin ? false : true;
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.links {
+  text-decoration: none;
+  color: $primaryColor;
+}
+.icon {
+  color: $primaryColor;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  color: $primaryColor;
+}
+
+@media (max-width: 767px) {
+  .logAlert {
+    margin-top: 10px !important;
+  }
+}
+</style>
