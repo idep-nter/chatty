@@ -58,7 +58,7 @@
               >Sign in</v-btn
             >
           </template>
-        <auth-dialog v-if="loginDialog"></auth-dialog>
+        <auth-dialog></auth-dialog>
         </v-dialog>
       </div>
     </v-toolbar>

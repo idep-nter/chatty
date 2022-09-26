@@ -26,18 +26,39 @@
       </v-col>
 
       <v-container class="justify-center d-flex">
-        <v-btn color="primary"> Create Room </v-btn>
+        <v-dialog v-model="loginDialog" max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" color="primary"
+              >Create Room</v-btn
+            >
+          </template>
+        <create-room-dialog></create-room-dialog>
+        </v-dialog>
+        <!-- <v-btn color="primary"> Create Room </v-btn> -->
       </v-container>
+
+<!-- 
+      <v-dialog v-model="loginDialog" max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" color="primary" :small="true"
+              >Create Room</v-btn
+            >
+          </template>
+        <auth-dialog></auth-dialog>
+        </v-dialog> -->
     </v-row>
   </div>
 </template>
 
 <script>
 import RoomsListItem from "~/components/RoomsListItem.vue";
+import CreateRoomDialog from "~/components/CreateRoomDialog.vue"
+
 export default {
-  components: { RoomsListItem },
+  components: { RoomsListItem, CreateRoomDialog },
   data() {
     return {
+      roomDialog: false,
       num: 0,
       items: [
         {
