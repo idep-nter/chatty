@@ -1,5 +1,8 @@
 export default {
-  getItems(state) {
-    return state.items;
+  getRooms(state) {
+    return state.rooms;
+  },
+  getRoomById: (state) => (payload) => {
+    return state.rooms.find((room) => room.id == payload);
   },
 };

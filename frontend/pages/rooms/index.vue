@@ -8,13 +8,14 @@
       <v-col md="8" sm="7">
         <v-card max-width="1400" height="500" class="pa-2 itemCard">
           <rooms-list-item
-            v-for="item in items"
-            :key="item.id"
+            v-for="room in rooms"
+            :key="room.id"
+            :id="room.id"
             :number="(num += 1)"
-            :title="item.title"
-            :image="item.image"
-            :lastUpdated="item.lastUpdated"
-            :updatedBy="item.updatedBy"
+            :title="room.title"
+            :image="room.image"
+            :lastUpdated="room.lastUpdated"
+            :updatedBy="room.updatedBy"
           >
           </rooms-list-item>
         </v-card>
@@ -26,7 +27,7 @@
       </v-col>
 
       <v-container class="justify-center d-flex">
-        <v-dialog v-model="loginDialog" max-width="600px">
+        <v-dialog v-model="roomDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" color="primary">Create Room</v-btn>
           </template>
@@ -38,8 +39,8 @@
 </template>
 
 <script>
-import RoomsListItem from "~/components/RoomsListItem.vue";
-import CreateRoomDialog from "~/components/CreateRoomDialog.vue";
+import RoomsListItem from '~/components/RoomsListItem.vue';
+import CreateRoomDialog from '~/components/dialogs/CreateRoomDialog.vue';
 
 export default {
   components: { RoomsListItem, CreateRoomDialog },
@@ -47,12 +48,11 @@ export default {
     return {
       roomDialog: false,
       num: 0,
-      items: [],
+      rooms: [],
     };
   },
   created() {
-    this.items = this.$store.getters["rooms/getItems"];
-    console.log('fwafa')
+    this.rooms = this.$store.getters['rooms/getRooms'];
   },
 };
 </script>

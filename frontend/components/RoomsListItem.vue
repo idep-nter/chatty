@@ -1,9 +1,11 @@
 <template>
   <li>
-    <v-row class="mt-1">
+    <v-row class="mt-1" @click="enterRoom">
       <v-col cols="1">
         <v-row class="num" no-gutters justify="center">{{ number }}</v-row>
       </v-col>
+      <!-- <v-divider vertical 
+      ></v-divider> -->
       <v-col cols="6">
         <v-row no-gutters justify="left">{{ title }}</v-row>
       </v-col>
@@ -11,8 +13,10 @@
 
       <v-col cols="3">
         <v-row justify="right">
+          <!-- <v-divider vertical 
+      ></v-divider> -->
           <v-card
-            class="portrait mr-2 img"
+            class="portrait ml-5 mr-2 img"
             :img="image"
             height="40"
             width="40"
@@ -27,12 +31,18 @@
         </v-row>
       </v-col>
     </v-row>
+    <!-- <v-divider></v-divider> -->
   </li>
 </template>
 
 <script>
 export default {
-  props: ["number", "title", "image", "lastUpdated", "updatedBy"],
+  props: ['id', 'number', 'title', 'image', 'lastUpdated', 'updatedBy'],
+  methods: {
+    enterRoom() {
+      this.$router.push({ path: `/rooms/${this.id}` });
+    }
+  }
 };
 </script>
 

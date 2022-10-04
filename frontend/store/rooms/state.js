@@ -1,5 +1,5 @@
 export default () => ({
-  items: [
+  rooms: [
     {
       id: 1,
       title: "Tinder",

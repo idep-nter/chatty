@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import AuthDialog from "~/components/AuthDialog.vue";
+import AuthDialog from "~/components/dialogs/AuthDialog.vue";
 
 export default {
   components: { AuthDialog },
