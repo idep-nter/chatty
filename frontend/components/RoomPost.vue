@@ -2,7 +2,7 @@
   <li>
     <v-row class="mt-1">
       <v-col cols="1">
-        <v-row class="pb-3"  justify="center">
+        <v-row class="pb-3" justify="center">
           <v-card
             class="portrait ml-5 mr-2 img"
             :img="image"
@@ -15,12 +15,12 @@
         </v-row>
       </v-col>
       <v-col cols="9">
-        <v-row  justify="left">{{ content }}</v-row>
+        <v-row justify="left">{{ content }}</v-row>
       </v-col>
       <v-spacer></v-spacer>
 
       <v-col cols="2">
-        <v-row  justify="left">
+        <v-row justify="left">
           <p>
             {{ created }}
           </p>
@@ -43,12 +43,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.num {
-  font-weight: bold;
-}
-// .img {
-//   margin-top: 5px;
-// }
 li {
   min-height: 100px;
 }

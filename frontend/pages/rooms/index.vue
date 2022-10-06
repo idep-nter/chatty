@@ -8,10 +8,10 @@
       <v-col md="8" sm="7">
         <v-card max-width="1400" height="500" class="pa-2 itemCard">
           <rooms-list-item
-            v-for="room in rooms"
+            v-for="(room, index) in rooms"
             :key="room.id"
             :id="room.id"
-            :number="(num += 1)"
+            :number="index + 1"
             :title="room.title"
             :image="room.image"
             :lastUpdated="room.lastUpdated"
@@ -27,7 +27,7 @@
       </v-col>
 
       <v-container class="justify-center d-flex">
-        <v-dialog v-model="roomDialog" max-width="600px">
+        <v-dialog v-model="createRoomDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" color="primary">Create Room</v-btn>
           </template>
@@ -46,7 +46,7 @@ export default {
   components: { RoomsListItem, CreateRoomDialog },
   data() {
     return {
-      roomDialog: false,
+      createRoomDialog: false,
       num: 0,
       rooms: [],
     };

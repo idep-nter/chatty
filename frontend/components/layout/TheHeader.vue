@@ -24,7 +24,7 @@
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
                 <v-card
-                  class="portrait"
+                  class="portrait mr-4"
                   img="https://placekitten.com/600/600"
                   height="50"
                   width="50"
@@ -52,7 +52,7 @@
           </v-dialog>
         </template>
 
-        <v-dialog v-model="loginDialog" max-width="600px">
+        <v-dialog v-model="loginDialog" max-width="600px" v-else>
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" color="primary" :small="true"
               >Sign in</v-btn
@@ -78,7 +78,7 @@ export default {
         {
           title: "Profile",
           click() {
-            this.$router.push("/profile");
+            this.$router.push("/user/profile");
           },
         },
         {
@@ -116,7 +116,7 @@ export default {
   computed: {
     loggedIn() {
       // return this.$store.getters['auth/loggedIn'];
-      return false;
+      return true;
     },
     title() {
       switch (this.$vuetify.breakpoint.name) {

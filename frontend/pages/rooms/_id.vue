@@ -3,8 +3,7 @@
     <v-row class="mt-12 mainRow d-flex justify-center">
       <v-col md="8" sm="7">
         <v-card max-width="1400" height="650" class="pa-2 itemCard">
-          <v-container class="d-flex justify-center"><h1>{{ room.title }}</h1></v-container>
-          
+          <v-container class="d-flex justify-center mb-5"><h1>{{ room.title }}</h1></v-container>          
           <room-post
             v-for="post in posts"
             :key="post.id"
