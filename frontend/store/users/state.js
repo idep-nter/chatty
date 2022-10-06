@@ -7,7 +7,9 @@ export default () => ({
       image: "https://placekitten.com/600/600",
       email: "mishamashi@gmail.com",
       password: "xxx",
-      aboutme: "bla bla"
+      aboutme: "bla bla",
+      postNum: 10,
+      registered: '23/1/2021'
     },
     {
       id: 2,
@@ -16,7 +18,9 @@ export default () => ({
       image: "https://placekitten.com/600/600",
       email: "awake@gmail.com",
       password: "xxx",
-      aboutme: "lalalala lalala"
+      aboutme: "lalalala lalala",
+      postNum: 20,
+      registered: '23/1/2021'
     },
   ]
 });

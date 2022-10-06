@@ -2,7 +2,7 @@
   <div>
     <v-row class="mt-12 d-flex justify-center">
       <v-container class="justify-center d-flex">
-        <v-col md="2">
+        <v-col md="1">
           <v-card
             class="portrait"
             :img="userInfo.image"
@@ -14,7 +14,7 @@
         </v-col>
       </v-container>
       <v-container class="justify-center d-flex information">
-        <v-col md="6" sm="7">
+        <v-col md="4">
           <v-card max-width="600" height="500">
               <v-row>
                 <v-col class="left mt-10">
@@ -22,6 +22,8 @@
                     <li>USERNAME:</li>
                     <li>NAME:</li>
                     <li>EMAIL:</li>
+                    <li>NUMBER OF POSTS</li>
+                    <li>REGISTERED</li>
                   </ul>
                 </v-col>
                 <v-col class="right mt-10">
@@ -29,6 +31,8 @@
                     <li>{{ userInfo.username }}</li>
                     <li>{{ userInfo.name }}</li>
                     <li>{{ userInfo.email }}</li>
+                    <li>{{ userInfo.postNum }}</li>
+                    <li>{{ userInfo.registered }}</li>
                   </ul>
                 </v-col>
               </v-row>

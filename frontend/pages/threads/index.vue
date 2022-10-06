@@ -7,17 +7,17 @@
 
       <v-col md="8" sm="7">
         <v-card max-width="1400" height="500" class="pa-2 itemCard">
-          <rooms-list-item
-            v-for="(room, index) in rooms"
-            :key="room.id"
-            :id="room.id"
+          <thread-list-item
+            v-for="(thread, index) in threads"
+            :key="thread.id"
+            :id="thread.id"
             :number="index + 1"
-            :title="room.title"
-            :image="room.image"
-            :lastUpdated="room.lastUpdated"
-            :updatedBy="room.updatedBy"
+            :title="thread.title"
+            :image="thread.image"
+            :lastUpdated="thread.lastUpdated"
+            :updatedBy="thread.updatedBy"
           >
-          </rooms-list-item>
+          </thread-list-item>
         </v-card>
         <v-pagination
           id="pagination"
@@ -27,11 +27,11 @@
       </v-col>
 
       <v-container class="justify-center d-flex">
-        <v-dialog v-model="createRoomDialog" max-width="600px">
+        <v-dialog v-model="createThreadDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" color="primary">Create Room</v-btn>
+            <v-btn v-bind="attrs" v-on="on" color="primary">Create Thread</v-btn>
           </template>
-          <create-room-dialog></create-room-dialog>
+          <create-thread-dialog></create-thread-dialog>
         </v-dialog>
       </v-container>
     </v-row>
@@ -39,20 +39,20 @@
 </template>
 
 <script>
-import RoomsListItem from '~/components/RoomsListItem.vue';
-import CreateRoomDialog from '~/components/dialogs/CreateRoomDialog.vue';
+import ThreadListItem from '~/components/ThreadListItem.vue';
+import CreateThreadDialog from '~/components/dialogs/CreateThreadDialog.vue';
 
 export default {
-  components: { RoomsListItem, CreateRoomDialog },
+  components: { ThreadListItem, CreateThreadDialog },
   data() {
     return {
-      createRoomDialog: false,
+      createThreadDialog: false,
       num: 0,
-      rooms: [],
+      threads: [],
     };
   },
   created() {
-    this.rooms = this.$store.getters['rooms/getRooms'];
+    this.threads = this.$store.getters['threads/getThreads'];
   },
 };
 </script>

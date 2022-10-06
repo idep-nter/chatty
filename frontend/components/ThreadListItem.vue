@@ -1,6 +1,6 @@
 <template>
   <li>
-    <v-row class="mt-1" @click="enterRoom">
+    <v-row class="mt-1" @click="enterThread">
       <v-col cols="1">
         <v-row class="num" no-gutters justify="center">{{ number }}</v-row>
       </v-col>
@@ -39,8 +39,8 @@
 export default {
   props: ['id', 'number', 'title', 'image', 'lastUpdated', 'updatedBy'],
   methods: {
-    enterRoom() {
-      this.$router.push({ path: `/rooms/${this.id}` });
+    enterThread() {
+      this.$router.push({ path: `/threads/${this.id}` });
     }
   }
 };

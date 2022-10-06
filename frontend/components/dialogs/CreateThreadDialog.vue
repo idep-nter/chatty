@@ -11,7 +11,7 @@
       >
         {{ errorMessage }}
       </v-alert>
-      <h1>Create Room</h1>
+      <h1>Create Thread</h1>
       <v-form ref="form" v-model="valid" lazy-validation class="pa-sm-4">
         <v-text-field
           v-model="name"

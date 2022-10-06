@@ -1,5 +1,5 @@
 export default () => ({
-  rooms: [
+  threads: [
     {
       id: 1,
       title: "Tinder",

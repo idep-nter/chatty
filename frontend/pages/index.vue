@@ -16,7 +16,7 @@
     </v-container>
     <v-container class="mt-10">
       <div class="d-flex justify-center mt-16">
-        <NuxtLink to="/rooms">
+        <NuxtLink to="/threads">
           <h3>Let's chat!</h3>
         </NuxtLink>
       </div>

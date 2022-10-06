@@ -64,7 +64,7 @@ export default {
         const formData = {
           id: this.id,
           author: this.name,
-          room: this.room,
+          thread: this.thread,
           content: this.post,
           created: this.created,
         };
