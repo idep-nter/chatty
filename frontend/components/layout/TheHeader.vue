@@ -58,7 +58,11 @@
               >Sign in</v-btn
             >
           </template>
-        <auth-dialog></auth-dialog>
+          <register-dialog
+            v-if="!loginMode"
+            @toggle-auth="toggleAuth"
+          ></register-dialog>
+          <login-dialog v-else @toggle-auth="toggleAuth"></login-dialog>
         </v-dialog>
       </div>
     </v-toolbar>
@@ -66,30 +70,32 @@
 </template>
 
 <script>
-import AuthDialog from "~/components/dialogs/AuthDialog.vue";
+import RegisterDialog from '~/components/dialogs/RegisterDialog.vue';
+import LoginDialog from '~/components/dialogs/LoginDialog.vue';
 
 export default {
-  components: { AuthDialog },
+  components: { RegisterDialog, LoginDialog },
   data() {
     return {
       loginDialog: false,
       logoutDialog: false,
+      loginMode: true,
       userId: 1, // dodelat dynamicky
       items: [
         {
-          title: "Profile",
+          title: 'Profile',
           click() {
             this.$router.push({ path: `/users/${this.userId}/profile` });
           },
         },
         {
-          title: "Settings",
+          title: 'Settings',
           click() {
-            this.$router.push("/settings");
+            this.$router.push('/settings');
           },
         },
         {
-          title: "Logout",
+          title: 'Logout',
           click() {
             this.dialog = true;
           },
@@ -97,19 +103,19 @@ export default {
       ],
       breadcrumbs: [
         {
-          text: "Test1",
+          text: 'Test1',
           disabled: false,
-          href: "auth/login",
+          href: 'auth/login',
         },
         {
-          text: "Test2",
+          text: 'Test2',
           disabled: false,
-          href: "auth/login",
+          href: 'auth/login',
         },
         {
-          text: "Test2",
+          text: 'Test2',
           disabled: false,
-          href: "auth/login",
+          href: 'auth/login',
         },
       ],
     };
@@ -117,14 +123,14 @@ export default {
   computed: {
     loggedIn() {
       // return this.$store.getters['auth/loggedIn'];
-      return true;
+      return false;
     },
     title() {
       switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "C";
+        case 'xs':
+          return 'C';
         default:
-          return "CHATTY";
+          return 'CHATTY';
       }
     },
   },
@@ -132,7 +138,7 @@ export default {
     logout() {
       this.dialog = false;
       // this.$store.dispatch('auth/logout');
-      this.$router.replace("/");
+      this.$router.replace('/');
     },
     closeDialog() {
       this.dialog = false;
@@ -140,8 +146,9 @@ export default {
     handleClick(index) {
       this.items[index].click.call(this);
     },
-    created() {
-    }
+    toggleAuth() {
+      this.loginMode = !this.loginMode;
+    },
   },
 };
 </script>
