@@ -74,11 +74,12 @@ export default {
     return {
       loginDialog: false,
       logoutDialog: false,
+      userId: 1, // dodelat dynamicky
       items: [
         {
           title: "Profile",
           click() {
-            this.$router.push("/user/profile");
+            this.$router.push({ path: `/users/${this.userId}/profile` });
           },
         },
         {
@@ -139,6 +140,8 @@ export default {
     handleClick(index) {
       this.items[index].click.call(this);
     },
+    created() {
+    }
   },
 };
 </script>

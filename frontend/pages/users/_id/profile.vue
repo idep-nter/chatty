@@ -45,7 +45,8 @@
           </v-card>
         </v-col>
       </v-container>
-
+      
+      <!-- IF current user === this user -->
       <v-container class="justify-center d-flex">
         <v-dialog v-model="editProfileDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">

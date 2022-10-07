@@ -2,7 +2,7 @@ export default () => ({
   posts: [
     {
       id: 1,
-      author: 'Awake',
+      author: 1,
       thread: 1,
       content:
         'fwfwaf fwfwaffwfwaffwfwaffwfwaffwfwaffwfwaffwfwaf fwfwaf fwfwaffwfwaffwfwaffwfwaffwfwaffwfwaffwfwaf fwfwaf fwfwaffwfwaffwfwaffwfwaffwfwaffwfwaffwfwaf',
@@ -10,14 +10,14 @@ export default () => ({
     },
     {
       id: 2,
-      author: 'Awake',
+      author: 1,
       thread: 1,
       content: 'fwfwaf fwfwaffwfwaffwfwfwaffwfwaffwf  waf',
       created: '02/01/22 14:39:11',
     },
     {
       id: 3,
-      author: 'Awake',
+      author: 1,
       thread: 1,
       content: 'fwfwaf fwfwaffwfwa  ffwfwaf fwfwaff  wfwaf',
       created: '03/01/22 14:39:11',
