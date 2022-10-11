@@ -34,6 +34,15 @@
             :small="buttonSize"
             :disabled="!valid"
             class="mr-4"
+            @click="closeDialog"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="primary"
+            :small="buttonSize"
+            :disabled="!valid"
+            class="mr-4"
             @click="submitForm"
           >
             Submit
@@ -46,57 +55,34 @@
 
 <script>
 export default {
-  // emits: ['input-check'],
+  emits: ['close-dialog', 'save-data'],
   data() {
     return {
       valid: true,
-      name: "",
+      name: '',
       nameRules: [
-        (v) => !!v || "Name is required",
-        (v) => (v && v.length <= 20) || "Name must be less than 20 characters",
+        (v) => !!v || 'Name is required',
+        (v) => (v && v.length <= 20) || 'Name must be less than 20 characters',
       ],
-      description: "",
+      description: '',
       descriptionRules: [
         (v) =>
-          (v && v.length <= 200) || "Name must be less than 200 characters",
+          (v && v.length <= 200) || 'Name must be less than 200 characters',
       ],
-      hasData: false,
     };
   },
-  // watch: {
-  //   name(value) {
-  //     if (this.name) {
-  //       this.$emit('input-check', true);
-  //     } else {
-  //       this.$emit('input-check', false);
-  //     }
-  //   },
-  //   description(value) {
-  //     if (this.description) {
-  //       this.$emit('input-check', true);
-  //     } else {
-  //       this.$emit('input-check', false);
-  //     }
-  //   },
-  // },
   methods: {
     submitForm() {
-      if (this.$refs.form.validate()) {
-        const category = this.categories.find(
-          (cat) => cat.name === this.category
-        );
-        const formData = {
-          id: this.id,
-          name: this.name,
-          category: category.id,
-          image: this.image,
-          price: this.price,
-          important: this.important,
-          link: this.link,
-          description: this.description,
-        };
-        this.$emit("save-data", formData);
-      }
+      // if (this.$refs.form.validate()) {
+      //   const formData = {
+      //     name: this.name,
+      //     description: this.description,
+      //   };
+      //   this.$emit("save-data", formData);
+      // }
+    },
+    closeDialog() {
+      this.$emit('close-dialog');
     },
   },
   // computed: {

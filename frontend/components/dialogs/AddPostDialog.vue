@@ -24,6 +24,14 @@
           <v-btn
             color="primary"
             :small="buttonSize"
+            class="mr-4"
+            @click="closeDialog"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="primary"
+            :small="buttonSize"
             :disabled="!valid"
             class="mr-4"
             @click="submitForm"
@@ -38,7 +46,7 @@
 
 <script>
 export default {
-  // emits: ['input-check'],
+  emits: ['close-dialog'],
   data() {
     return {
       valid: true,
@@ -60,16 +68,15 @@ export default {
   //   },
   methods: {
     submitForm() {
-      if (this.$refs.form.validate()) {
-        const formData = {
-          id: this.id,
-          author: this.name,
-          thread: this.thread,
-          content: this.post,
-          created: this.created,
-        };
-        this.$emit("save-data", formData);
-      }
+      // if (this.$refs.form.validate()) {
+      //   const formData = {
+      //     post: this.post,
+      //   };
+      //   this.$emit("save-data", formData);
+      // }
+    },
+    closeDialog() {
+      this.$emit('close-dialog');
     },
   },
   // computed: {

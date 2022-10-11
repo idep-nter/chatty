@@ -37,6 +37,14 @@
             <v-btn
               color="primary"
               :small="buttonSize"
+              class="mr-4"
+              @click="closeDialog"
+            >
+              Close
+            </v-btn>
+            <v-btn
+              color="primary"
+              :small="buttonSize"
               :disabled="!valid"
               class="mr-4"
               @click="submitForm"
@@ -48,7 +56,7 @@
               @click="toggleAuth()"
               :small="buttonSize"
               class="mr-4"
-              >Sign up instead</v-btn
+              >Register instead</v-btn
             >
           </v-container>
           <v-container class="mt-8 justify-center d-flex">
@@ -62,14 +70,54 @@
 
 <script>
 export default {
-  emits: ['toggle-auth'],
+  emits: ['toggle-auth', 'close-dialog', 'login-auth'],
   data() {
-    return {};
+    return {
+      valid: true,
+      value: true,
+      // value2: true,
+      password: '',
+      passwordRules: [
+        (v) => !!v || 'Password is required!',
+        (v) =>
+          /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(
+            v
+          ) ||
+          'Password must contain a minimum of eight characters, at least one upper case English letter, one lower case English letter, one number and one special character!',
+      ],
+      username: '',
+      usernameRules: [
+        (v) => !!v || 'Username is required!',
+        (v) =>
+          (v && v.length <= 20) || 'Username must be less than 20 characters!',
+      ],
+      formData: {},
+      errorMessage: '',
+    };
   },
   computed: {},
   methods: {
     toggleAuth() {
       this.$emit('toggle-auth');
+    },
+    closeDialog() {
+      this.$emit('close-dialog');
+    },
+    validate() {
+      this.$refs.form.validate();
+    },
+    submitForm() {
+      this.formData = {
+        username: this.username,
+        password: this.password,
+      };
+
+      this.$emit('login-auth', this.formData);
+
+      if (this.showError) {
+        this.errorMessage = 'Failed to authenticate! Check your login data.';
+        return;
+      }
     },
   },
 };

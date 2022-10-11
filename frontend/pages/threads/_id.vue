@@ -23,11 +23,11 @@
 
       <v-container class="justify-center d-flex">
         <v-btn class="mr-5" color="primary">Refresh</v-btn>
-        <v-dialog v-model="addPostDialog" max-width="600px">
+        <v-dialog persistent v-model="addPostDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" color="primary">Add post</v-btn>
           </template>
-          <add-post-dialog></add-post-dialog>
+          <add-post-dialog @close-dialog="addPostDialog=false"></add-post-dialog>
         </v-dialog>
       </v-container>
     </v-row>
@@ -36,7 +36,7 @@
 
 <script>
 import AddPostDialog from '~/components/dialogs/AddPostDialog.vue';
-import ThreadPost from '~/components/ThreadPost.vue';
+import ThreadPost from '~/components/threads/ThreadPost.vue';
 
 export default {
   components: { AddPostDialog, ThreadPost },

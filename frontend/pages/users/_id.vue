@@ -48,11 +48,11 @@
       
       <!-- IF current user === this user -->
       <v-container class="justify-center d-flex">
-        <v-dialog v-model="editProfileDialog" max-width="600px">
+        <v-dialog persistent v-model="editProfileDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" color="primary">Edit profile</v-btn>
           </template>
-          <edit-profile-dialog></edit-profile-dialog>
+          <edit-profile-dialog :user-info="userInfo" @save-data="saveData" @close-dialog="editProfileDialog=false"></edit-profile-dialog>
         </v-dialog>
       </v-container>
     </v-row>
@@ -67,12 +67,16 @@ export default {
   data() {
     return {
       editProfileDialog: false,
-      userInfo: null,
-      id: '1',
+      userInfo: '',
+      id: '',
     };
   },
-  methods: {},
+  methods: {
+    saveData(payload) {
+    }
+  },
   created() {
+    this.id = this.$route.params.id
     this.userInfo = this.$store.getters['users/getUserInfo'](this.id);
   },
 };

@@ -44,15 +44,15 @@
             </v-menu>
           </div>
 
-          <v-dialog v-model="logoutDialog" max-width="320">
-            <layout-the-dialog @disagree="closeDialog" @agree="logout"
+          <v-dialog persistent v-model="logoutDialog" max-width="320">
+            <layout-the-dialog @disagree="logoutDialog = false" @agree="logout"
               >>
               <template v-slot:text> Do you really want to logout? </template>
             </layout-the-dialog>
           </v-dialog>
         </template>
 
-        <v-dialog v-model="loginDialog" max-width="600px" v-else>
+        <v-dialog persistent v-model="loginDialog" max-width="600px" v-else>
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" color="primary" :small="true"
               >Sign in</v-btn
@@ -61,8 +61,15 @@
           <register-dialog
             v-if="!loginMode"
             @toggle-auth="toggleAuth"
+            @close-dialog="loginDialog = false"
+            @register-auth="registerAuth"
           ></register-dialog>
-          <login-dialog v-else @toggle-auth="toggleAuth"></login-dialog>
+          <login-dialog
+            v-else
+            @toggle-auth="toggleAuth"
+            @close-dialog="loginDialog = false"
+            @login-auth="loginAuth"
+          ></login-dialog>
         </v-dialog>
       </div>
     </v-toolbar>
@@ -85,7 +92,7 @@ export default {
         {
           title: 'Profile',
           click() {
-            this.$router.push({ path: `/users/${this.userId}/profile` });
+            this.$router.push({ path: `/users/${this.userId}` });
           },
         },
         {
@@ -97,7 +104,7 @@ export default {
         {
           title: 'Logout',
           click() {
-            this.dialog = true;
+            this.logoutDialog = true;
           },
         },
       ],
@@ -123,7 +130,7 @@ export default {
   computed: {
     loggedIn() {
       // return this.$store.getters['auth/loggedIn'];
-      return false;
+      return true;
     },
     title() {
       switch (this.$vuetify.breakpoint.name) {
@@ -148,6 +155,10 @@ export default {
     },
     toggleAuth() {
       this.loginMode = !this.loginMode;
+    },
+    registerAuth() {
+    },
+    loginAuth() {
     },
   },
 };

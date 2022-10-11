@@ -27,11 +27,16 @@
       </v-col>
 
       <v-container class="justify-center d-flex">
-        <v-dialog v-model="createThreadDialog" max-width="600px">
+        <v-dialog v-model="createThreadDialog" max-width="600px" persistent>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" color="primary">Create Thread</v-btn>
+            <v-btn v-bind="attrs" v-on="on" color="primary"
+              >Create Thread</v-btn
+            >
           </template>
-          <create-thread-dialog></create-thread-dialog>
+          <create-thread-dialog
+            @save-data="saveData"
+            @close-dialog="createThreadDialog = false"
+          ></create-thread-dialog>
         </v-dialog>
       </v-container>
     </v-row>
@@ -39,7 +44,7 @@
 </template>
 
 <script>
-import ThreadListItem from '~/components/ThreadListItem.vue';
+import ThreadListItem from '~/components/threads/ThreadListItem.vue';
 import CreateThreadDialog from '~/components/dialogs/CreateThreadDialog.vue';
 
 export default {
@@ -53,6 +58,8 @@ export default {
   },
   created() {
     this.threads = this.$store.getters['threads/getThreads'];
+  },
+  methods: {
   },
 };
 </script>

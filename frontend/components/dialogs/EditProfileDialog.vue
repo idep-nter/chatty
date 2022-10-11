@@ -11,14 +11,12 @@
       >
         {{ errorMessage }}
       </v-alert>
-      <h1>
-        Edit Profile
-      </h1>
+      <h1>Edit Profile</h1>
       <v-form ref="form" v-model="valid" lazy-validation class="pa-sm-4">
         <v-text-field
           v-model="username"
-          :rules="usrModeRules"
-          :counter="showCounter"
+          :rules="usernameRules"
+          :counter="20"
           label="Username"
           required
         ></v-text-field>
@@ -26,6 +24,7 @@
         <v-text-field
           v-model="name"
           :rules="nameRules"
+          :counter="30"
           label="Name"
           required
         ></v-text-field>
@@ -34,6 +33,13 @@
           v-model="email"
           :rules="emailRules"
           label="E-mail"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="image"
+          :rules="imageRules"
+          label="Image URL"
           required
         ></v-text-field>
 
@@ -47,18 +53,24 @@
 
         <v-text-field
           autocomplete="current-password"
-          :value="password"
+          :value="enteredPassword"
           label="Current password"
           :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="() => (value = !value)"
           :type="value ? 'password' : 'text'"
-          :rules="pswModeRules"
           @input="(_) => (password = _)"
         ></v-text-field>
 
-
         <v-container>
           <v-container class="mt-8 justify-center d-flex">
+            <v-btn
+              color="primary"
+              :small="buttonSize"
+              class="mr-4"
+              @click="closeDialog"
+            >
+              Close
+            </v-btn>
             <v-btn
               color="primary"
               :small="buttonSize"
@@ -69,7 +81,6 @@
               Edit
             </v-btn>
           </v-container>
-
         </v-container>
       </v-form>
     </v-container>
@@ -78,50 +89,78 @@
 
 <script>
 export default {
-  // emits: ['input-check'],
+  emits: ['close-dialog'],
+  props: ['user-info'],
   data() {
     return {
       valid: true,
-      post: "",
-      postRules: [
-        (v) => !!v || "Message is required",
-        (v) => (v && v.length <= 200) || "Message must be less than 200 characters",
+      value: true,
+      // value2: true,
+      enteredPassword: '',
+      loadedPassword: this.userInfo.password,
+      username: this.userInfo.username,
+      usernameRules: [
+        (v) => !!v || 'Username is required!',
+        (v) =>
+          (v && v.length <= 20) || 'Username must be less than 20 characters!',
       ],
-      // hasData: false,
+      name: this.userInfo.name,
+      nameRules: [
+        (v) => !!v || 'Name is required!',
+        (v) => (v && v.length <= 30) || 'Name must be less than 30 characters!',
+      ],
+      image: this.userInfo.image,
+      imageRules: [
+        (v) =>
+          /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(
+            v
+          ) || 'Must be a valid URL',
+      ],
+      email: this.userInfo.email,
+      emailRules: [
+        (v) => !!v || 'E-mail is required!',
+        (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid!',
+      ],
+      aboutme: this.userInfo.aboutme,
+      aboutmeRules: [
+        (v) =>
+          (v && v.length <= 200) || 'Name must be less than 200 characters',
+      ],
+      formData: {},
+      errorMessage: '',
     };
   },
-  // watch: {
-  //   post(value) {
-  //     if (this.post) {
-  //       this.$emit('input-check', true);
-  //     } else {
-  //       this.$emit('input-check', false);
-  //     }
-  //   },
   methods: {
     submitForm() {
-      if (this.$refs.form.validate()) {
+      if (
+        this.$refs.form.validate() &&
+        this.enteredPassword === this.loadedPassword
+      ) {
         const formData = {
-          id: this.id,
-          author: this.name,
-          thread: this.thread,
-          content: this.post,
-          created: this.created,
+          id: this.userInfo.id,
+          username: this.username,
+          name: this.name,
+          email: this.email,
+          image: this.image,
+          aboutme: this.aboutme,
         };
-        this.$emit("save-data", formData);
+        this.$emit('save-data', formData);
+      }
+    },
+    closeDialog() {
+      this.$emit('close-dialog');
+    },
+  },
+  computed: {
+    buttonSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return true;
+        default:
+          return false;
       }
     },
   },
-  // computed: {
-  //   buttonSize() {
-  //     switch (this.$vuetify.breakpoint.name) {
-  //       case 'xs':
-  //         return true;
-  //       default:
-  //         return false;
-  //     }
-  //   },
-  // },
 };
 </script>
 
