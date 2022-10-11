@@ -101,6 +101,10 @@ export default {
       this.$emit('toggle-auth');
     },
     closeDialog() {
+      this.valid = true
+      this.password = '';
+      this.username = '';
+      this.$refs.form.resetValidation();
       this.$emit('close-dialog');
     },
     validate() {

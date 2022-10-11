@@ -148,6 +148,14 @@ export default {
       }
     },
     closeDialog() {
+      this.valid = true;
+      this.$refs.form.resetValidation();
+      this.enteredPassword = '';
+      this.loadedPassword = this.userInfo.password;
+      this.username = this.userInfo.username;
+      this.email = this.userInfo.email;
+      this.image = this.userInfo.image;
+      this.aboutme = this.userInfo.aboutme;
       this.$emit('close-dialog');
     },
   },

@@ -149,6 +149,14 @@ export default {
       this.$emit('toggle-auth');
     },
     closeDialog() {
+      this.valid = true
+      this.username = '';
+      this.name = '';
+      this.email = '';
+      this.image = '';
+      this.password = '';
+      this.password2 = '';
+      this.$refs.form.resetValidation();
       this.$emit('close-dialog');
     },
     validate() {

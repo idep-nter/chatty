@@ -32,7 +32,6 @@
           <v-btn
             color="primary"
             :small="buttonSize"
-            :disabled="!valid"
             class="mr-4"
             @click="closeDialog"
           >
@@ -73,15 +72,19 @@ export default {
   },
   methods: {
     submitForm() {
-      // if (this.$refs.form.validate()) {
-      //   const formData = {
-      //     name: this.name,
-      //     description: this.description,
-      //   };
-      //   this.$emit("save-data", formData);
-      // }
+      if (this.$refs.form.validate()) {
+        const formData = {
+          name: this.name,
+          description: this.description,
+        };
+        this.$emit("save-data", formData);
+      }
     },
     closeDialog() {
+      this.valid = true
+      this.name = '',
+      this.description = '',
+      this.$refs.form.resetValidation() 
       this.$emit('close-dialog');
     },
   },

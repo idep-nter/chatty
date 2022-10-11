@@ -50,12 +50,13 @@ export default {
   data() {
     return {
       valid: true,
-      post: "",
+      post: '',
       postRules: [
-        (v) => !!v || "Message is required",
-        (v) => (v && v.length <= 200) || "Message must be less than 200 characters",
+        (v) => !!v || 'Message is required',
+        (v) =>
+          (v && v.length <= 200) || 'Message must be less than 200 characters',
       ],
-      // hasData: false,
+      data: false,
     };
   },
   // watch: {
@@ -68,27 +69,30 @@ export default {
   //   },
   methods: {
     submitForm() {
-      // if (this.$refs.form.validate()) {
-      //   const formData = {
-      //     post: this.post,
-      //   };
-      //   this.$emit("save-data", formData);
-      // }
+      if (this.$refs.form.validate()) {
+        const formData = {
+          post: this.post,
+        };
+        this.$emit('save-data', formData);
+      }
     },
     closeDialog() {
+      this.valid = true;
+      this.post = '';
+      this.$refs.form.resetValidation();
       this.$emit('close-dialog');
     },
   },
-  // computed: {
-  //   buttonSize() {
-  //     switch (this.$vuetify.breakpoint.name) {
-  //       case 'xs':
-  //         return true;
-  //       default:
-  //         return false;
-  //     }
-  //   },
-  // },
+  computed: {
+    buttonSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return true;
+        default:
+          return false;
+      }
+    },
+  },
 };
 </script>
 
