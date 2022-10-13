@@ -1,12 +1,11 @@
 <template>
-  <div>
     <v-row class="mt-12 mainRow d-flex justify-center">
       <v-col md="8" sm="7" class>
         <v-card max-width="1400" height="100" class="pa-2 filterCard"> </v-card>
       </v-col>
 
       <v-col md="8" sm="7">
-        <v-card max-width="1400" height="500" class="pa-2 itemCard">
+        <v-card max-width="1400" height="695" class="pa-2 itemCard">
           <thread-list-item
             v-for="(thread, index) in threads"
             :key="thread.id"
@@ -17,29 +16,25 @@
             :updatedBy="thread.updatedBy"
           >
           </thread-list-item>
-        </v-card>
-        <v-pagination
-          id="pagination"
-          class="mt-8"
-          color="primary"
-        ></v-pagination>
-      </v-col>
 
-      <v-container class="justify-center d-flex">
-        <v-dialog v-model="createThreadDialog" max-width="600px" persistent>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" color="primary"
-              >Create Thread</v-btn
-            >
-          </template>
-          <create-thread-dialog
-            @save-data="saveData"
-            @close-dialog="createThreadDialog = false"
-          ></create-thread-dialog>
-        </v-dialog>
-      </v-container>
+          <v-pagination id="pagination" color="primary"></v-pagination>
+
+          <v-container id="create" class="d-flex justify-center">
+            <v-dialog v-model="createThreadDialog" max-width="600px" persistent>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn v-bind="attrs" v-on="on" color="primary"
+                  >Create Thread</v-btn
+                >
+              </template>
+              <create-thread-dialog
+                @save-data="saveData"
+                @close-dialog="createThreadDialog = false"
+              ></create-thread-dialog>
+            </v-dialog>
+          </v-container>
+        </v-card>
+      </v-col>
     </v-row>
-  </div>
 </template>
 
 <script>
@@ -58,22 +53,32 @@ export default {
   created() {
     this.threads = this.$store.getters['threads/getThreads'];
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>
 
 <style scoped>
+/* .bottom {
+  align-items: center;
+  height: 100%;
+} */
+
 li {
   list-style-type: none;
 }
-/* #pagination {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin-bottom: 1.5rem;
-  } */
+#pagination {
+  position: absolute;
+  bottom: 13%;
+  left: 0%;
+  right: 0%;
+}
+
+#create {
+  position: absolute;
+  bottom: 3%;
+  left: 0%;
+  right: 0%;
+}
 
 /* a {
     text-decoration: none;

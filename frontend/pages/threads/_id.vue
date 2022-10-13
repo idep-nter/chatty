@@ -1,54 +1,47 @@
 <template>
-  <div>
-    <v-row class="mt-12 mainRow d-flex justify-center">
-      <v-col md="8" sm="7">
-        <v-card max-width="1400" height="650" class="pa-2 itemCard">
-          <v-container class="d-flex justify-center mb-5"
-            ><h1>{{ thread.title }}</h1>
-            <v-dialog persistent v-model="infoDialog" max-width="600px">
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  v-bind="attrs"
-                  v-on="on"
-                  class="ml-3"
-                  v-if="thread.description"
-                >
-                  mdi-information-outline
-                </v-icon>
-              </template>
-              <info-dialog
-                @close-dialog="infoDialog = false"
-                :info="thread.description"
-              ></info-dialog>
-            </v-dialog>
-          </v-container>
-          <v-container v-if="posts">
-            <thread-post
-              v-for="post in posts"
-              :key="post.id"
-              :id="post.id"
-              :author-id="post.author"
-              :content="post.content"
-              :created="post.created"
+  <v-container class="mt-12 mainRow d-flex justify-center">
+    <v-card max-width="1400" height="819" class="pa-2 itemCard">
+      <v-container class="d-flex justify-center mb-5"
+        ><h1>{{ thread.title }}</h1>
+        <v-dialog persistent v-model="infoDialog" max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              v-bind="attrs"
+              v-on="on"
+              class="ml-3"
+              v-if="thread.description"
             >
-            </thread-post>
-          </v-container>
-          <v-container
-            id="noPosts"
-            v-if="posts.length === 0"
-            class="d-flex justify-center"
-          >
-            <h2>No posts yet!</h2>
-          </v-container>
-        </v-card>
-        <v-pagination
-          id="pagination"
-          class="mt-8"
-          color="primary"
-        ></v-pagination>
-      </v-col>
+              mdi-information-outline
+            </v-icon>
+          </template>
+          <info-dialog
+            @close-dialog="infoDialog = false"
+            :info="thread.description"
+          ></info-dialog>
+        </v-dialog>
+      </v-container>
+      <v-container v-if="posts">
+        <thread-post
+          v-for="post in posts"
+          :key="post.id"
+          :id="post.id"
+          :author-id="post.author"
+          :content="post.content"
+          :created="post.created"
+        >
+        </thread-post>
+      </v-container>
+      <v-container
+        id="noPosts"
+        v-if="posts.length === 0"
+        class="d-flex justify-center"
+      >
+        <h2>No posts yet!</h2>
+      </v-container>
 
-      <v-container class="justify-center d-flex">
+      <v-pagination id="pagination" color="primary"></v-pagination>
+
+      <v-container class="justify-center d-flex" id="btns">
         <v-btn class="mr-5" color="primary">Refresh</v-btn>
         <v-dialog persistent v-model="addPostDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
@@ -59,8 +52,8 @@
           ></add-post-dialog>
         </v-dialog>
       </v-container>
-    </v-row>
-  </div>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -89,6 +82,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#pagination {
+  position: absolute;
+  bottom: 11%;
+  left: 0%;
+  right: 0%;
+}
+
+#btns {
+  position: absolute;
+  bottom: 2.5%;
+  left: 0%;
+  right: 0%;
+}
 #noPosts {
   align-items: center;
   height: 60%;

@@ -1,62 +1,62 @@
 <template>
-  <div>
-    <v-row class="mt-12 d-flex justify-center">
-      <v-container class="justify-center d-flex">
-        <v-col md="1">
-          <v-card
-            class="portrait"
-            :img="userInfo.image"
-            height="150"
-            width="150"
-            v-bind="attrs"
-            v-on="on"
-          ></v-card>
+  <v-container class="justify-center d-flex information">
+    <v-card min-width="600" height="819" class="mt-12">
+      <v-row class="d-flex justify-center mt-10">
+        <v-card
+          class="portrait"
+          :img="userInfo.image"
+          height="150"
+          width="150"
+          v-bind="attrs"
+          v-on="on"
+        ></v-card>
+      </v-row>
+      <v-row>
+        <v-col class="left mt-10">
+          <ul>
+            <li>USERNAME:</li>
+            <li>NAME:</li>
+            <li>EMAIL:</li>
+            <li>NUMBER OF POSTS</li>
+            <li>REGISTERED</li>
+          </ul>
         </v-col>
-      </v-container>
-      <v-container class="justify-center d-flex information">
-        <v-col md="4">
-          <v-card max-width="600" height="500">
-              <v-row>
-                <v-col class="left mt-10">
-                  <ul>
-                    <li>USERNAME:</li>
-                    <li>NAME:</li>
-                    <li>EMAIL:</li>
-                    <li>NUMBER OF POSTS</li>
-                    <li>REGISTERED</li>
-                  </ul>
-                </v-col>
-                <v-col class="right mt-10">
-                  <ul>
-                    <li>{{ userInfo.username }}</li>
-                    <li>{{ userInfo.name }}</li>
-                    <li>{{ userInfo.email }}</li>
-                    <li>{{ userInfo.postNum }}</li>
-                    <li>{{ userInfo.registered }}</li>
-                  </ul>
-                </v-col>
-              </v-row>
-              <v-row class="about left mt-5">
-                <li>ABOUT ME:</li>
-              </v-row>
-              <v-row class="about">
-                <li>{{ userInfo.aboutme }}</li>
-              </v-row>
-          </v-card>
+        <v-col class="right mt-10">
+          <ul>
+            <li>{{ userInfo.username }}</li>
+            <li>{{ userInfo.name }}</li>
+            <li>{{ userInfo.email }}</li>
+            <li>{{ userInfo.postNum }}</li>
+            <li>{{ userInfo.registered }}</li>
+          </ul>
         </v-col>
-      </v-container>
-      
-      <!-- IF current user === this user -->
-      <v-container class="justify-center d-flex">
+      </v-row>
+      <v-row class="about left mt-5">
+        <li>ABOUT ME:</li>
+      </v-row>
+      <v-row class="about">
+        <li>{{ userInfo.aboutme }}</li>
+      </v-row>
+      <v-row class="justify-center d-flex editBtn" >
         <v-dialog persistent v-model="editProfileDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" color="primary">Edit profile</v-btn>
           </template>
           <edit-profile-dialog :user-info="userInfo" @save-data="saveData" @close-dialog="editProfileDialog=false"></edit-profile-dialog>
         </v-dialog>
-      </v-container>
-    </v-row>
-  </div>
+      </v-row>
+    </v-card>
+  </v-container>
+
+  <!-- IF current user === this user -->
+  <!-- <v-container class="justify-center d-flex">
+        <v-dialog persistent v-model="editProfileDialog" max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" color="primary">Edit profile</v-btn>
+          </template>
+          <edit-profile-dialog :user-info="userInfo" @save-data="saveData" @close-dialog="editProfileDialog=false"></edit-profile-dialog>
+        </v-dialog>
+      </v-container> -->
 </template>
 
 <script>
@@ -72,17 +72,23 @@ export default {
     };
   },
   methods: {
-    saveData(payload) {
-    }
+    saveData(payload) {},
   },
   created() {
-    this.id = this.$route.params.id
+    this.id = this.$route.params.id;
     this.userInfo = this.$store.getters['users/getUserInfo'](this.id);
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.editBtn {
+  position: absolute;
+  bottom: 5%;
+  left: 0%;
+  right: 0%;
+}
+
 li {
   list-style-type: none;
   margin-bottom: 10px;
