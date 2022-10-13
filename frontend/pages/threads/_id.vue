@@ -22,15 +22,20 @@
               ></info-dialog>
             </v-dialog>
           </v-container>
-          <thread-post
-            v-for="post in posts"
-            :key="post.id"
-            :id="post.id"
-            :author-id="post.author"
-            :content="post.content"
-            :created="post.created"
-          >
-          </thread-post>
+          <v-container v-if="posts">
+            <thread-post
+              v-for="post in posts"
+              :key="post.id"
+              :id="post.id"
+              :author-id="post.author"
+              :content="post.content"
+              :created="post.created"
+            >
+            </thread-post>
+          </v-container>
+          <v-container v-else>
+            <h2>No posts</h2>
+          </v-container>
         </v-card>
         <v-pagination
           id="pagination"
@@ -55,7 +60,7 @@
 </template>
 
 <script>
-import InfoDialog from '~/components/dialogs/InfoDialog.vue'
+import InfoDialog from '~/components/dialogs/InfoDialog.vue';
 import AddPostDialog from '~/components/dialogs/AddPostDialog.vue';
 import ThreadPost from '~/components/threads/ThreadPost.vue';
 

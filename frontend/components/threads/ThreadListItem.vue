@@ -17,7 +17,7 @@
       ></v-divider> -->
           <v-card
             class="portrait ml-5 mr-2 img"
-            :img="image"
+            :img="user.image"
             height="40"
             width="40"
           ></v-card>
@@ -26,7 +26,7 @@
             <i>{{ lastUpdated }}</i>
             <br />
             by
-            <i>{{ updatedBy }}</i>
+            <i>{{ user.username }}</i>
           </p>
         </v-row>
       </v-col>
@@ -37,11 +37,20 @@
 
 <script>
 export default {
-  props: ['id', 'number', 'title', 'image', 'lastUpdated', 'updatedBy'],
+  props: ['id', 'number', 'title', 'lastUpdated', 'updatedBy'],
+  data() {
+    return {
+      user: '',
+    }
+  },
   methods: {
     enterThread() {
       this.$router.push({ path: `/threads/${this.id}` });
-    }
+    },
+  },
+  created() {
+    this.user = this.$store.getters['users/getUserInfo'](this.updatedBy);
+
   }
 };
 </script>

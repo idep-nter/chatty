@@ -36,7 +36,6 @@ export default {
   props: ['id', 'author-id', 'content', 'created'],
   data() {
     return {
-      image: 'https://placekitten.com/600/600',
       author: '',
     };
   },
@@ -46,7 +45,7 @@ export default {
     },
   },
   created() {
-    this.author = this.$store.getters['users/getAuthorCred'](
+    this.author = this.$store.getters['users/getUserInfo'](
       this.authorId
     )
   },

@@ -13,7 +13,6 @@
             :id="thread.id"
             :number="index + 1"
             :title="thread.title"
-            :image="thread.image"
             :lastUpdated="thread.lastUpdated"
             :updatedBy="thread.updatedBy"
           >
