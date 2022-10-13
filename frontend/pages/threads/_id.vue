@@ -33,8 +33,12 @@
             >
             </thread-post>
           </v-container>
-          <v-container v-else>
-            <h2>No posts</h2>
+          <v-container
+            id="noPosts"
+            v-if="posts.length === 0"
+            class="d-flex justify-center"
+          >
+            <h2>No posts yet!</h2>
           </v-container>
         </v-card>
         <v-pagination
@@ -79,11 +83,16 @@ export default {
     this.id = this.$route.params.id;
     this.thread = this.$store.getters['threads/getThreadById'](this.id);
     this.posts = this.$store.getters['posts/getPosts'](this.id);
+    console.log(this.posts);
   },
 };
 </script>
 
 <style lang="scss" scoped>
+#noPosts {
+  align-items: center;
+  height: 60%;
+}
 h1 {
   color: $primaryColor;
 }
