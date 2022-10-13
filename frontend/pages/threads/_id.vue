@@ -3,12 +3,30 @@
     <v-row class="mt-12 mainRow d-flex justify-center">
       <v-col md="8" sm="7">
         <v-card max-width="1400" height="650" class="pa-2 itemCard">
-          <v-container class="d-flex justify-center mb-5"><h1>{{ thread.title }}</h1></v-container>          
+          <v-container class="d-flex justify-center mb-5"
+            ><h1>{{ thread.title }}</h1>
+            <v-dialog persistent v-model="infoDialog" max-width="600px">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  v-bind="attrs"
+                  v-on="on"
+                  class="ml-3"
+                  v-if="thread.description"
+                >
+                  mdi-information-outline
+                </v-icon>
+              </template>
+              <info-dialog
+                @close-dialog="infoDialog = false"
+                :info="thread.description"
+              ></info-dialog>
+            </v-dialog>
+          </v-container>
           <thread-post
             v-for="post in posts"
             :key="post.id"
             :id="post.id"
-            :author="post.author"
+            :author-id="post.author"
             :content="post.content"
             :created="post.created"
           >
@@ -27,7 +45,9 @@
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" color="primary">Add post</v-btn>
           </template>
-          <add-post-dialog @close-dialog="addPostDialog=false"></add-post-dialog>
+          <add-post-dialog
+            @close-dialog="addPostDialog = false"
+          ></add-post-dialog>
         </v-dialog>
       </v-container>
     </v-row>
@@ -35,16 +55,18 @@
 </template>
 
 <script>
+import InfoDialog from '~/components/dialogs/InfoDialog.vue'
 import AddPostDialog from '~/components/dialogs/AddPostDialog.vue';
 import ThreadPost from '~/components/threads/ThreadPost.vue';
 
 export default {
-  components: { AddPostDialog, ThreadPost },
+  components: { AddPostDialog, ThreadPost, InfoDialog },
   data() {
     return {
+      infoDialog: false,
       addPostDialog: false,
-      id: null,
-      thread: null,
+      id: '',
+      thread: '',
       posts: [],
     };
   },
@@ -64,5 +86,4 @@ h1 {
 li {
   list-style-type: none;
 }
-
 </style>

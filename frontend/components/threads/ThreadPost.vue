@@ -5,12 +5,12 @@
         <v-row class="pb-3 author" justify="center" @click="enterProfile">
           <v-card
             class="portrait ml-5 mr-2 img"
-            :img="image"
+            :img="author.image"
             height="40"
             width="40"
           ></v-card>
           <div id="username">
-            <p>{{ authorUsername }}</p>
+            <p>{{ author.username }}</p>
           </div>
         </v-row>
       </v-col>
@@ -33,22 +33,22 @@
 
 <script>
 export default {
-  props: ['id', 'author', 'content', 'created'],
+  props: ['id', 'author-id', 'content', 'created'],
   data() {
     return {
       image: 'https://placekitten.com/600/600',
-      authorUsername: null,
+      author: '',
     };
   },
   methods: {
     enterProfile() {
-      this.$router.push({ path: `/users/${this.id}/profile` });
+      this.$router.push({ path: `/users/${this.author.id}` });
     },
   },
   created() {
-    this.authorUsername = this.$store.getters['users/getAuthorCred'](
-      this.author
-    ).username;
+    this.author = this.$store.getters['users/getAuthorCred'](
+      this.authorId
+    )
   },
 };
 </script>
