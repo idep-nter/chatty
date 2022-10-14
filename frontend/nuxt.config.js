@@ -1,26 +1,27 @@
-import colors from "vuetify/es5/util/colors";
+import colors from 'vuetify/es5/util/colors';
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: "static",
+  target: 'static',
   server: {
     port: 8080,
-    host: "0.0.0.0",
+    host: '0.0.0.0',
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: "%s - chatty",
-    title: "chatty",
+    titleTemplate: '%s - chatty',
+    title: 'chatty',
     htmlAttrs: {
-      lang: "en",
+      lang: 'en',
     },
+    // script: [{ src: 'https://unpkg.com/vue-scrollto@2.7.9/vue-scrollto.js' }],
     meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" },
-      { name: "format-detection", content: "telephone=no" },
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
+      { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -35,30 +36,30 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
-    "@nuxtjs/vuetify",
+    '@nuxtjs/vuetify',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/style-resources"],
+  modules: ['@nuxtjs/style-resources'],
 
   styleResources: {
-    scss: ["~/assets/scss/*.scss"],
+    scss: ['~/assets/scss/*.scss'],
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ["~/assets/scss/variables.scss"],
+    customVariables: ['~/assets/scss/variables.scss'],
     treeShaking: true,
     theme: {
       themes: {
         light: {
-          primary: "#6495ed",
-          secondary: "#424242",
-          accent: "#82B1FF",
-          error: "#FF5252",
-          info: "#2196F3",
-          success: "#4CAF50",
-          warning: "#FB8C00",
+          primary: '#6495ed',
+          secondary: '#424242',
+          accent: '#82B1FF',
+          error: '#FF5252',
+          info: '#2196F3',
+          success: '#4CAF50',
+          warning: '#FB8C00',
         },
         dark: {
           primary: colors.blue.darken2,

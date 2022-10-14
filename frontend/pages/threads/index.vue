@@ -53,7 +53,10 @@ export default {
   created() {
     this.threads = this.$store.getters['threads/getThreads'];
   },
-  methods: {},
+  computed: {
+  },
+  methods: {
+  },
 };
 </script>
 

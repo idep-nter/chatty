@@ -15,7 +15,7 @@
       </div>
     </v-container>
     <v-container class="mt-10">
-      <div class="d-flex justify-center mt-16">
+      <div class="d-flex justify-center chat">
         <NuxtLink to="/threads">
           <h3>Let's chat!</h3>
         </NuxtLink>
@@ -29,6 +29,12 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
+.chat {
+  position: absolute;
+  bottom: 45%;
+  left: 0%;
+  right: 0%;
+}
 h1 {
   color: $primaryColor;
 }

@@ -16,7 +16,7 @@
         <v-textarea
           v-model="post"
           :rules="postRules"
-          :counter="200"
+          :counter="999"
           required
         ></v-textarea>
 
@@ -54,7 +54,7 @@ export default {
       postRules: [
         (v) => !!v || 'Message is required',
         (v) =>
-          (v && v.length <= 200) || 'Message must be less than 200 characters',
+          (v && v.length <= 999) || 'Message must be less than 999 characters',
       ],
       data: false,
     };

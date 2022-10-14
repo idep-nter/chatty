@@ -37,26 +37,21 @@
       <v-row class="about">
         <li>{{ userInfo.aboutme }}</li>
       </v-row>
-      <v-row class="justify-center d-flex editBtn" >
+      <!-- IF current user === this user -->
+      <v-row class="justify-center d-flex editBtn">
         <v-dialog persistent v-model="editProfileDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-bind="attrs" v-on="on" color="primary">Edit profile</v-btn>
           </template>
-          <edit-profile-dialog :user-info="userInfo" @save-data="saveData" @close-dialog="editProfileDialog=false"></edit-profile-dialog>
+          <edit-profile-dialog
+            :user-info="userInfo"
+            @save-data="saveData"
+            @close-dialog="editProfileDialog = false"
+          ></edit-profile-dialog>
         </v-dialog>
       </v-row>
     </v-card>
   </v-container>
-
-  <!-- IF current user === this user -->
-  <!-- <v-container class="justify-center d-flex">
-        <v-dialog persistent v-model="editProfileDialog" max-width="600px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" color="primary">Edit profile</v-btn>
-          </template>
-          <edit-profile-dialog :user-info="userInfo" @save-data="saveData" @close-dialog="editProfileDialog=false"></edit-profile-dialog>
-        </v-dialog>
-      </v-container> -->
 </template>
 
 <script>
