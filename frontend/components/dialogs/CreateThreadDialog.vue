@@ -16,17 +16,17 @@
         <v-text-field
           v-model="name"
           :rules="nameRules"
-          :counter="15"
+          :counter="100"
           label="Title"
           required
         ></v-text-field>
 
-        <v-text-field
+        <v-textarea
           v-model="description"
           :rules="descriptionRules"
           label="Description"
-          :counter="50"
-        ></v-text-field>
+          :counter="999"
+        ></v-textarea>
 
         <v-container class="mt-8 justify-center d-flex buttons">
           <v-btn
@@ -61,12 +61,12 @@ export default {
       name: '',
       nameRules: [
         (v) => !!v || 'Name is required',
-        (v) => (v && v.length <= 20) || 'Name must be less than 20 characters',
+        (v) => (v && v.length <= 100) || 'Name must be less than 100 characters',
       ],
       description: '',
       descriptionRules: [
         (v) =>
-          (v && v.length <= 200) || 'Name must be less than 200 characters',
+          (v && v.length <= 999) || 'Name must be less than 999 characters',
       ],
     };
   },

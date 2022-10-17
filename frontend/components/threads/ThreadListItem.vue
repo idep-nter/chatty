@@ -6,7 +6,7 @@
       </v-col>
       <!-- <v-divider vertical 
       ></v-divider> -->
-      <v-col cols="6">
+      <v-col cols="8">
         <v-row no-gutters justify="left">{{ title }}</v-row>
       </v-col>
       <v-spacer></v-spacer>

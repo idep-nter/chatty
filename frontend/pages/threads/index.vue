@@ -1,6 +1,5 @@
 <template>
-    <v-row class="mt-12 mainRow d-flex 
-    -center">
+    <v-row class="mt-12 mainRow d-flex justify-center">
       <v-col md="8" sm="7" class>
         <v-card max-width="1400" height="100" class="pa-2 filterCard"> </v-card>
       </v-col>
@@ -62,11 +61,6 @@ export default {
 </script>
 
 <style scoped>
-/* .bottom {
-  align-items: center;
-  height: 100%;
-} */
-
 li {
   list-style-type: none;
 }

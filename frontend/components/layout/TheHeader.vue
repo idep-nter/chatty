@@ -9,13 +9,26 @@
           }}</v-toolbar-title>
         </v-row>
       </NuxtLink>
-      <v-breadcrumbs :items="breadcrumbs">
+      <v-breadcrumbs :items="breadcrumbs" class="bread">
         <template v-slot:item="{ item }">
-          <v-breadcrumbs-item :href="item.href" :disabled="item.disabled">
+          <v-breadcrumbs-item @click="handleClick(breadcrumbs, item.index)">
             {{ item.text.toUpperCase() }}
           </v-breadcrumbs-item>
         </template>
       </v-breadcrumbs>
+
+      <v-text-field
+        transition="scroll-x-transition"
+        style="width: 650px"
+        dense
+        class="ml-10 mt-7"
+        prepend-icon="mdi-magnify"
+        flat
+        rounded
+        placeholder="Search"
+        filled
+      ></v-text-field>
+
       <v-spacer></v-spacer>
 
       <div class="right">
@@ -36,7 +49,7 @@
                 <v-list-item
                   v-for="(item, index) in items"
                   :key="index"
-                  @click="handleClick(index)"
+                  @click="handleClick(items, index)"
                 >
                   <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item>
@@ -110,19 +123,23 @@ export default {
       ],
       breadcrumbs: [
         {
-          text: 'Test1',
-          disabled: false,
-          href: 'auth/login',
+          index: 0,
+          text: 'threads',
+          click() {
+            this.$router.push('/threads');
+          },
         },
         {
-          text: 'Test2',
-          disabled: false,
-          href: 'auth/login',
+          index: 1,
+          text: 'TBD',
+          click() {
+          },
         },
         {
-          text: 'Test2',
-          disabled: false,
-          href: 'auth/login',
+          index: 2,
+          text: 'TBD',
+          click() {
+          },
         },
       ],
     };
@@ -150,21 +167,23 @@ export default {
     closeDialog() {
       this.dialog = false;
     },
-    handleClick(index) {
-      this.items[index].click.call(this);
+    handleClick(items, index) {
+      items[index].click.call(this);
     },
     toggleAuth() {
       this.loginMode = !this.loginMode;
     },
-    registerAuth() {
-    },
-    loginAuth() {
-    },
+    registerAuth() {},
+    loginAuth() {},
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.bread {
+  color: $primaryColor;
+  cursor: pointer;
+}
 .links {
   text-decoration: none;
   color: $primaryColor;

@@ -38,7 +38,7 @@
         <v-btn @click="scrollToElement()" color="primary">Add post</v-btn>
       </v-container>
 
-      <v-container v-if="posts">
+      <v-container v-if="posts" class="pb-0">
         <thread-post
           v-for="(post, index) in posts"
           :key="post.id"
@@ -58,7 +58,7 @@
         <h2>No posts yet!</h2>
       </v-container>
 
-      <v-container class="mt-5">
+      <v-container class="mt-5 pt-0">
         <v-pagination color="primary"></v-pagination>
       </v-container>
 
