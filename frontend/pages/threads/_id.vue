@@ -6,7 +6,7 @@
       max-height="auto"
       class="pa-2 mb-3 itemCard"
     >
-      <v-container class="d-flex justify-center"
+      <v-container class="d-flex justify-center pb-0"
         ><h1>{{ thread.title }}</h1>
         <v-dialog persistent v-model="infoDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
@@ -21,12 +21,19 @@
           </template>
           <info-dialog
             @close-dialog="infoDialog = false"
-            :info="thread.description"
+            :info="thread"
           ></info-dialog>
         </v-dialog>
       </v-container>
+      <v-container class="d-flex justify-center pt-0">
+        <v-chip-group>
+          <v-chip v-for="tag in thread.tags" :key="tag">
+            {{ tag }}
+          </v-chip>
+        </v-chip-group>
+      </v-container>
 
-      <v-container class="justify-center d-flex ml-1 mb-5">
+      <v-container class="justify-center d-flex mb-5">
         <v-btn class="mr-5" color="primary">Refresh</v-btn>
         <v-btn @click="scrollToElement()" color="primary">Add post</v-btn>
       </v-container>
@@ -72,8 +79,8 @@
             no-resize
           ></v-textarea>
         </v-container>
-        <v-container class="d-flex justify-center pb-12">
-          <v-btn color="primary">Add post</v-btn>
+        <v-container class="d-flex justify-center pb-12 pt-0">
+          <v-btn color="primary" @click="submitForm()">Submit</v-btn>
         </v-container>
       </v-form>
     </v-card>
@@ -82,11 +89,10 @@
 
 <script>
 import InfoDialog from '~/components/dialogs/InfoDialog.vue';
-import AddPostDialog from '~/components/dialogs/AddPostDialog.vue';
 import ThreadPost from '~/components/threads/ThreadPost.vue';
 
 export default {
-  components: { AddPostDialog, ThreadPost, InfoDialog },
+  components: { ThreadPost, InfoDialog },
   data() {
     return {
       infoDialog: false,
@@ -94,6 +100,13 @@ export default {
       id: '',
       thread: '',
       posts: [],
+      valid: true,
+      post: '',
+      postRules: [
+        (v) => !!v || 'Message is required',
+        (v) =>
+          (v && v.length <= 999) || 'Message must be less than 999 characters',
+      ],
     };
   },
   computed: {
@@ -113,6 +126,14 @@ export default {
     },
     scrollToElement() {
       this.$refs.addPost.$el.scrollIntoView({ behavior: 'smooth' });
+    },
+    submitForm() {
+      if (this.$refs.form.validate()) {
+        const formData = {
+          post: this.post,
+        };
+        this.$emit('save-data', formData);
+      }
     },
   },
   created() {

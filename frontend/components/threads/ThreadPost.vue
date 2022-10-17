@@ -1,6 +1,6 @@
 <template>
   <li>
-    <v-row class="mt-2">
+    <v-row class="mt-3">
       <v-col cols="1">
         <v-row class="author" justify="center" @click="enterProfile">
           <v-card
@@ -15,37 +15,29 @@
         </v-row>
       </v-col>
       <v-col cols="10" class="contentCol">
-
-
         <v-row
           v-if="content.length > 200 && lessContent"
           justify="left"
-          class="content mb-2 ml-5 mr-5"
+          class="content mb-3 ml-5 mr-5"
           >{{ cutContent }}
-          <span class="loadMoreLess" @click="togglePostLength()">... view more</span>
+          <span class="loadMoreLess" @click="togglePostLength()"
+            >... view more</span
+          >
         </v-row>
-
 
         <v-row
           v-else-if="content.length > 200 && !lessContent"
           justify="left"
-          class="content mb-1 ml-5 mr-5"
-          >{{ content }} <span class="loadMoreLess" @click="togglePostLength()">... view less</span>
+          class="content mb-3 ml-5 mr-5"
+          >{{ content }}
+          <span class="loadMoreLess" @click="togglePostLength()"
+            >... view less</span
+          >
         </v-row>
 
-
-        <v-row
-          v-else
-          justify="left"
-          class="content mb-1 ml-5 mr-5"
+        <v-row v-else justify="left" class="content mb-3 ml-5 mr-5"
           >{{ content }}
         </v-row>
-
-
-        
-
-
-
       </v-col>
       <v-spacer></v-spacer>
 
@@ -71,16 +63,15 @@ export default {
       lessContent: true,
     };
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     enterProfile() {
       this.$router.push({ path: `/users/${this.author.id}` });
     },
     togglePostLength() {
-      this.lessContent = !this.lessContent
-      console.log(this.lessContent)
-    }
+      this.lessContent = !this.lessContent;
+      console.log(this.lessContent);
+    },
   },
   created() {
     this.author = this.$store.getters['users/getUserInfo'](this.authorId);

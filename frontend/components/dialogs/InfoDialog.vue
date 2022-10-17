@@ -1,7 +1,8 @@
 <template>
   <v-card>
     <v-container>
-      <p>{{ info }}</p>
+      <h2>Description</h2>
+        <p>{{ info.description }}</p>
       <v-container class="mt-8 justify-center d-flex buttons">
         <v-btn color="primary" class="mr-4" @click="closeDialog"> Close </v-btn>
       </v-container>
@@ -35,9 +36,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: $primaryColor;
+}
 p {
-  display: flex;
-  justify-content: center;
   color: $primaryColor;
 }
 /* Smartphones */
