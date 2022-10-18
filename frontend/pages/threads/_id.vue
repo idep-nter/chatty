@@ -27,14 +27,14 @@
       </v-container>
       <v-container class="d-flex justify-center pt-0">
         <v-chip-group>
-          <v-chip v-for="tag in thread.tags" :key="tag">
-            {{ tag }}
+          <v-chip v-for="tag in tags" :key="tag">
+            {{ tag.name }}
           </v-chip>
         </v-chip-group>
       </v-container>
 
       <v-container class="justify-center d-flex mb-5">
-        <v-btn class="mr-5" color="primary">Refresh</v-btn>
+        <v-btn @click="refresh()" class="mr-5" color="primary">Refresh</v-btn>
         <v-btn @click="scrollToElement()" color="primary">Add post</v-btn>
       </v-container>
 
@@ -100,6 +100,7 @@ export default {
       id: '',
       thread: '',
       posts: [],
+      tags: [],
       valid: true,
       post: '',
       postRules: [
@@ -135,11 +136,15 @@ export default {
         this.$emit('save-data', formData);
       }
     },
+    refresh() {
+      this.posts = this.$store.getters['posts/getPosts'](this.id);
+    }
   },
   created() {
     this.id = this.$route.params.id;
     this.thread = this.$store.getters['threads/getThreadById'](this.id);
     this.posts = this.$store.getters['posts/getPosts'](this.id);
+    this.tags = this.$store.getters['threads/getTags'](this.thread.tags);
   },
 };
 </script>

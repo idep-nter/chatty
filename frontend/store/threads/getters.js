@@ -11,4 +11,7 @@ export default {
     const thread = this.getThreadById(payload)
     return thread.posts && thread.posts.length > 0;
   },
+  getTags: (state) => (payload) => {
+    return state.tags.filter((tag) => payload.includes(tag.id));
+  }, 
 };
