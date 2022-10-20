@@ -28,6 +28,18 @@
           :counter="999"
         ></v-textarea>
 
+        <v-combobox
+          class="mt-5"
+          v-model="tags"
+          hint="Maximum of 5 tags"
+          label="Tags"
+          multiple
+          persistent-hint
+          small-chips
+          clearable
+        >
+        </v-combobox>
+
         <v-container class="mt-8 justify-center d-flex buttons">
           <v-btn
             color="primary"
@@ -61,14 +73,25 @@ export default {
       name: '',
       nameRules: [
         (v) => !!v || 'Name is required',
-        (v) => (v && v.length <= 100) || 'Name must be less than 100 characters',
+        (v) =>
+          (v && v.length <= 100) || 'Name must be less than 100 characters',
       ],
       description: '',
       descriptionRules: [
+        (v) => !!v || 'Description is required',
         (v) =>
-          (v && v.length <= 999) || 'Name must be less than 999 characters',
+          (v && v.length <= 999) ||
+          'Descriptioname must be less than 999 characters',
       ],
+      tags: [],
     };
+  },
+  watch: {
+    tags(val) {
+      if (val.length > 5) {
+        this.$nextTick(() => this.tags.pop());
+      }
+    },
   },
   methods: {
     submitForm() {
@@ -76,15 +99,15 @@ export default {
         const formData = {
           name: this.name,
           description: this.description,
+          tags: this.tags,
         };
-        this.$emit("save-data", formData);
+        this.$emit('save-data', formData);
       }
     },
     closeDialog() {
-      this.valid = true
-      this.name = '',
-      this.description = '',
-      this.$refs.form.resetValidation() 
+      this.valid = true;
+      (this.name = ''), (this.description = ''), (this.tags = []);
+      this.$refs.form.resetValidation();
       this.$emit('close-dialog');
     },
   },

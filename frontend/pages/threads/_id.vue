@@ -144,7 +144,7 @@ export default {
     this.id = this.$route.params.id;
     this.thread = this.$store.getters['threads/getThreadById'](this.id);
     this.posts = this.$store.getters['posts/getPosts'](this.id);
-    this.tags = this.$store.getters['threads/getTags'](this.thread.tags);
+    this.tags = this.$store.getters['threads/getThreadTags'](this.thread.tags);
   },
 };
 </script>

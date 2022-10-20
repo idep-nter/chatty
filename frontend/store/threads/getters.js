@@ -1,17 +1,23 @@
-import state from "./state";
+import state from './state';
 
 export default {
   getThreads(state) {
     return state.threads;
   },
+  getTags(state) {
+    return state.tags;
+  },
   getThreadById: (state) => (payload) => {
     return state.threads.find((thread) => thread.id == payload);
   },
   hasPosts: (state) => (payload) => {
-    const thread = this.getThreadById(payload)
+    const thread = this.getThreadById(payload);
     return thread.posts && thread.posts.length > 0;
   },
-  getTags: (state) => (payload) => {
+  getThreadTags: (state) => (payload) => {
     return state.tags.filter((tag) => payload.includes(tag.id));
-  }, 
+  },
+  getTagByName: (state) => (payload) => {
+    return state.tags.find((tag) => tag.name == payload);
+  },
 };

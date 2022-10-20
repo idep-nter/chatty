@@ -1,40 +1,90 @@
 <template>
-    <v-row class="mt-12 mainRow d-flex justify-center">
-      <v-col md="8" sm="7" class>
-        <v-card max-width="1400" height="100" class="pa-2 filterCard"> </v-card>
-      </v-col>
+  <v-row class="mt-12 mainRow d-flex justify-center">
+    <v-col md="8" sm="7" class>
+      <v-card max-width="1400" height="100" class="pa-2 filterCard">
+        <v-row>
+          <v-col cols="4">
+            <v-text-field
+              dense
+              class="ml-5 mt-7"
+              prepend-icon="mdi-magnify"
+              flat
+              outlined
+              placeholder="Search by name"
+              filled
+              v-model="searchedName"
+            ></v-text-field>
+          </v-col>
 
-      <v-col md="8" sm="7">
-        <v-card max-width="1400" height="695" class="pa-2 itemCard">
-          <thread-list-item
-            v-for="(thread, index) in threads"
-            :key="thread.id"
-            :id="thread.id"
-            :number="index + 1"
-            :title="thread.title"
-            :lastUpdated="thread.lastUpdated"
-            :updatedBy="thread.updatedBy"
-          >
-          </thread-list-item>
+          <v-col cols="3">
+            <v-autocomplete
+              class="mt-7"
+              v-model="searchedTags"
+              :items="tagNames"
+              filled
+              outlined
+              dense
+              chips
+              small-chips
+              label="Search by tags"
+              multiple
+            ></v-autocomplete>
+          </v-col>
+          <v-col cols="3">
+            <v-container id="dropdown-example-1">
+              <v-overflow-btn
+                filled
+                v-model="sortBy"
+                dense
+                class="mt-4"
+                :items="sorts"
+                label="Sort by"
+              ></v-overflow-btn>
+            </v-container>
+          </v-col>
+          <v-col cols="2">
+            <v-container class="px-0 mt-1" fluid>
+              <v-checkbox
+                v-model="showMyThreads"
+                label="My Threads"
+              ></v-checkbox>
+            </v-container>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-col>
 
-          <v-pagination id="pagination" color="primary"></v-pagination>
+    <v-col md="8" sm="7">
+      <v-card max-width="1400" height="695" class="pa-2 itemCard">
+        <thread-list-item
+          v-for="(thread, index) in filteredThreads"
+          :key="thread.id"
+          :id="thread.id"
+          :number="index + 1"
+          :title="thread.title"
+          :lastUpdated="thread.lastUpdated"
+          :updatedBy="thread.updatedBy"
+        >
+        </thread-list-item>
 
-          <v-container id="create" class="d-flex justify-center">
-            <v-dialog v-model="createThreadDialog" max-width="600px" persistent>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn v-bind="attrs" v-on="on" color="primary"
-                  >Create Thread</v-btn
-                >
-              </template>
-              <create-thread-dialog
-                @save-data="saveData"
-                @close-dialog="createThreadDialog = false"
-              ></create-thread-dialog>
-            </v-dialog>
-          </v-container>
-        </v-card>
-      </v-col>
-    </v-row>
+        <v-pagination id="pagination" color="primary"></v-pagination>
+
+        <v-container id="create" class="d-flex justify-center">
+          <v-dialog v-model="createThreadDialog" max-width="600px" persistent>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn v-bind="attrs" v-on="on" color="primary"
+                >Create Thread</v-btn
+              >
+            </template>
+            <create-thread-dialog
+              @save-data="saveData"
+              @close-dialog="createThreadDialog = false"
+            ></create-thread-dialog>
+          </v-dialog>
+        </v-container>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -45,6 +95,12 @@ export default {
   components: { ThreadListItem, CreateThreadDialog },
   data() {
     return {
+      sorts: ['Alphabetically', 'Last updated'],
+      sortBy: '',
+      searchedName: '',
+      tagNames: [],
+      searchedTags: [],
+      showMyThreads: false,
       createThreadDialog: false,
       num: 0,
       threads: [],
@@ -52,10 +108,82 @@ export default {
   },
   created() {
     this.threads = this.$store.getters['threads/getThreads'];
+    this.getTagNames();
   },
   computed: {
+    filteredThreads() {
+      // filter by name
+      const tagIds = [];
+      this.searchedTags.forEach((tag) => {
+        const tagId = this.$store.getters['threads/getTagByName'](tag).id;
+        tagIds.push(tagId);
+      });
+      let filtered = this.threads.filter((thread) => {
+        return thread.title
+          .toLowerCase()
+          .includes(this.searchedName.toLowerCase());
+      });
+
+      // filter my threads
+      if (this.showMyThreads) {
+        const myThreads = this.getMyThreads();
+        filtered = filtered.filter((thread) => {
+          return myThreads.includes(thread.id);
+        });
+      }
+
+      // filter by tags
+      if (this.searchedTags.length !== 0) {
+        filtered = filtered.filter((thread) => {
+          return thread.tags.some((tag) => tagIds.includes(tag));
+        });
+      }
+
+      // sort
+      if (this.sortBy == 'Alphabetically') {
+        filtered.sort((a, b) => {
+          let ta = a.title.toLowerCase(),
+            tb = b.title.toLowerCase();
+
+          if (ta < tb) {
+            return -1;
+          }
+          if (ta > tb) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (this.sortBy == 'Last updated') {
+        filtered.sort((a, b) => {
+          let da = new Date(a.lastUpdated),
+            db = new Date(b.lastUpdated);
+          return da - db;
+        });
+      }
+
+      return filtered;
+    },
   },
   methods: {
+    getTagNames() {
+      const tags = this.$store.getters['threads/getTags'];
+      this.tagNames = tags.map(function (tag) {
+        return tag.name;
+      });
+    },
+    getMyThreads() {
+      const myThreads = [];
+      this.threads.forEach((thread) => {
+        const posts = this.$store.getters['posts/getPosts'](thread.id);
+        posts.every((post) => {
+          if (post.author === 1) {
+            myThreads.push(thread.id);
+            return false;
+          }
+        });
+      });
+      return myThreads;
+    },
   },
 };
 </script>

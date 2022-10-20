@@ -17,24 +17,27 @@
         </template>
       </v-breadcrumbs>
 
-      <v-text-field
-        transition="scroll-x-transition"
-        style="width: 650px"
-        dense
-        class="ml-10 mt-7"
-        prepend-icon="mdi-magnify"
-        flat
-        rounded
-        placeholder="Search"
-        filled
-      ></v-text-field>
+      <Transition name="fade">
+        <v-text-field
+          v-if="searchbar"
+          style="width: 700px"
+          dense
+          class="ml-10 mt-7"
+          prepend-icon="mdi-magnify"
+          flat
+          rounded
+          placeholder="Search"
+          filled
+          v-model="search"
+        ></v-text-field>
+      </Transition>
 
       <v-spacer></v-spacer>
 
       <div class="right">
         <template v-if="loggedIn">
           <div class="text-center">
-            <v-menu offset-y>
+            <v-menu offset-y transition="scroll-y-transition">
               <template v-slot:activator="{ on, attrs }">
                 <v-card
                   class="portrait mr-4"
@@ -97,6 +100,8 @@ export default {
   components: { RegisterDialog, LoginDialog },
   data() {
     return {
+      search: '',
+      searchbar: true,
       loginDialog: false,
       logoutDialog: false,
       loginMode: true,
@@ -132,13 +137,13 @@ export default {
         {
           index: 1,
           text: 'TBD',
-          click() {
-          },
+          click() {},
         },
         {
           index: 2,
-          text: 'TBD',
+          text: 'search',
           click() {
+            this.searchbar = !this.searchbar;
           },
         },
       ],
@@ -180,6 +185,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 .bread {
   color: $primaryColor;
   cursor: pointer;
