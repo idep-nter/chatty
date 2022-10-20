@@ -6,7 +6,7 @@
           <v-col cols="4">
             <v-text-field
               dense
-              class="ml-5 mt-7"
+              class="ml-5 mt-6"
               prepend-icon="mdi-magnify"
               flat
               outlined
@@ -18,7 +18,7 @@
 
           <v-col cols="3">
             <v-autocomplete
-              class="mt-7"
+              class="mt-6"
               v-model="searchedTags"
               :items="tagNames"
               filled
@@ -36,14 +36,14 @@
                 filled
                 v-model="sortBy"
                 dense
-                class="mt-4"
+                class="sortBy"
                 :items="sorts"
                 label="Sort by"
               ></v-overflow-btn>
             </v-container>
           </v-col>
           <v-col cols="2">
-            <v-container class="px-0 mt-1" fluid>
+            <v-container class="px-0" fluid>
               <v-checkbox
                 v-model="showMyThreads"
                 label="My Threads"
@@ -62,8 +62,6 @@
           :id="thread.id"
           :number="index + 1"
           :title="thread.title"
-          :lastUpdated="thread.lastUpdated"
-          :updatedBy="thread.updatedBy"
         >
         </thread-list-item>
 
@@ -113,11 +111,6 @@ export default {
   computed: {
     filteredThreads() {
       // filter by name
-      const tagIds = [];
-      this.searchedTags.forEach((tag) => {
-        const tagId = this.$store.getters['threads/getTagByName'](tag).id;
-        tagIds.push(tagId);
-      });
       let filtered = this.threads.filter((thread) => {
         return thread.title
           .toLowerCase()
@@ -134,6 +127,11 @@ export default {
 
       // filter by tags
       if (this.searchedTags.length !== 0) {
+        const tagIds = [];
+        this.searchedTags.forEach((tag) => {
+          const tagId = this.$store.getters['threads/getTagByName'](tag).id;
+          tagIds.push(tagId);
+        });
         filtered = filtered.filter((thread) => {
           return thread.tags.some((tag) => tagIds.includes(tag));
         });
@@ -189,6 +187,9 @@ export default {
 </script>
 
 <style scoped>
+.sortBy{
+  margin-top: 10px;
+}
 li {
   list-style-type: none;
 }

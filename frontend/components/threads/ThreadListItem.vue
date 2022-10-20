@@ -11,13 +11,13 @@
       </v-col>
       <v-spacer></v-spacer>
 
-      <v-col cols="3">
-        <v-row justify="right">
+      <v-col cols="3" class="pl-0 pr-0">
+        <v-row justify="right" v-if="lastPost">
           <!-- <v-divider vertical 
       ></v-divider> -->
           <v-card
             class="portrait ml-5 mr-2 img"
-            :img="user.image"
+            :img="image"
             height="40"
             width="40"
           ></v-card>
@@ -26,21 +26,34 @@
             <i>{{ lastUpdated }}</i>
             <br />
             by
-            <i>{{ user.username }}</i>
+            <i>{{ updatedBy }}</i>
           </p>
         </v-row>
+        <v-row v-else></v-row>
       </v-col>
     </v-row>
+
     <!-- <v-divider></v-divider> -->
   </li>
 </template>
 
 <script>
 export default {
-  props: ['id', 'number', 'title', 'lastUpdated', 'updatedBy'],
+  props: ['id', 'number', 'title'],
   data() {
     return {
-      user: '',
+      lastPost: ''
+    }
+  },
+  computed: {
+    lastUpdated() {
+      return this.lastPost.created
+    },
+    updatedBy() {
+      return this.$store.getters['users/getUserInfo'](this.lastPost.author).username;
+    },
+    image() {
+      return this.$store.getters['users/getUserInfo'](this.lastPost.author).image
     }
   },
   methods: {
@@ -49,8 +62,7 @@ export default {
     },
   },
   created() {
-    this.user = this.$store.getters['users/getUserInfo'](this.updatedBy);
-
+    this.lastPost = this.$store.getters['posts/getPosts'](this.id)[0]
   }
 };
 </script>

@@ -111,10 +111,6 @@ export default {
     };
   },
   computed: {
-    //   getLastIndex(index) {
-    //     const lastIndex = arr.length - 1
-    //     return index === lastIndex ? true : false
-    //   }
   },
   methods: {
     lastIndexCheck(index) {
