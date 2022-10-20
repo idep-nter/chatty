@@ -16,7 +16,7 @@
         <v-text-field
           v-model="name"
           :rules="nameRules"
-          :counter="100"
+          :counter="80"
           label="Title"
           required
         ></v-text-field>
@@ -74,7 +74,7 @@ export default {
       nameRules: [
         (v) => !!v || 'Name is required',
         (v) =>
-          (v && v.length <= 100) || 'Name must be less than 100 characters',
+          (v && v.length <= 80) || 'Name must be less than 80 characters',
       ],
       description: '',
       descriptionRules: [

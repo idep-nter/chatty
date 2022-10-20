@@ -35,10 +35,10 @@
 
       <v-container class="justify-center d-flex mb-5">
         <v-btn @click="refresh()" class="mr-5" color="primary">Refresh</v-btn>
-        <v-btn @click="scrollToElement()" color="primary">Add post</v-btn>
+        <v-btn v-if="posts.length > 3" @click="scrollToElement()" color="primary">Add post</v-btn>
       </v-container>
 
-      <v-container v-if="posts" class="pb-0">
+      <v-container v-if="posts.length > 0" class="pb-0">
         <thread-post
           v-for="(post, index) in posts"
           :key="post.id"
@@ -49,17 +49,16 @@
           :last="lastIndexCheck(index)"
         >
         </thread-post>
-      </v-container>
-      <v-container
-        id="noPosts"
-        v-if="posts.length === 0"
-        class="d-flex justify-center"
-      >
-        <h2>No posts yet!</h2>
-      </v-container>
-
+  
       <v-container class="mt-5 pt-0">
         <v-pagination color="primary"></v-pagination>
+      </v-container>
+    </v-container>
+    <v-container
+        v-else
+        class="d-flex justify-center mt-10"
+      >
+        <h2>No posts yet!</h2>
       </v-container>
 
       <v-form ref="form" v-model="valid" lazy-validation class="">
@@ -83,6 +82,7 @@
           <v-btn color="primary" @click="submitForm()">Submit</v-btn>
         </v-container>
       </v-form>
+    
     </v-card>
   </v-container>
 </template>
@@ -148,7 +148,7 @@ export default {
 <style lang="scss" scoped>
 #noPosts {
   align-items: center;
-  height: 60%;
+  height: 45%;
 }
 h1 {
   color: $primaryColor;

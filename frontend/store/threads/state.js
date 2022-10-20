@@ -8,7 +8,7 @@ export default () => ({
     },
     {
       id: 2,
-      title: "Sigh view am high neat half to what. Sent late held than set why wife our. If an blessing building steepes",
+      title: "Sigh view am high neat half to what. Sent late held than set why wife our. If an blessing",
       tags: [1, 2, 3],
       description: "https://placekitten.com/600/600",
     },
