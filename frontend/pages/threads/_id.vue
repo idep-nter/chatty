@@ -56,7 +56,7 @@
     </v-container>
     <v-container
         v-else
-        class="d-flex justify-center mt-10"
+        class="d-flex justify-center noPosts"
       >
         <h2>No posts yet!</h2>
       </v-container>
@@ -146,9 +146,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#noPosts {
+.noPosts {
   align-items: center;
-  height: 45%;
+  height: 20%;
 }
 h1 {
   color: $primaryColor;
