@@ -5,6 +5,6 @@ from .models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ['username', 'name', 'image', 'email', 'about_me', 'post_number', 'registration_date']
+    list_display = ['username', 'email']
 
 

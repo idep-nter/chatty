@@ -2,17 +2,17 @@
   <li>
     <v-row class="mt-1" @click="enterThread">
       <v-col cols="1">
-        <v-row class="num" no-gutters justify="center">{{ number }}</v-row>
+        <v-row class="num justify-center" no-gutters>{{ number }}</v-row>
       </v-col>
       <!-- <v-divider vertical 
       ></v-divider> -->
       <v-col cols="8">
-        <v-row no-gutters justify="left">{{ title }}</v-row>
+        <v-row no-gutters class="justify-left">{{ title }}</v-row>
       </v-col>
       <v-spacer></v-spacer>
 
       <v-col cols="3" class="pl-0 pr-0">
-        <v-row justify="right" v-if="lastPost">
+        <v-row class="justify-rigth" v-if="lastPost">
           <!-- <v-divider vertical 
       ></v-divider> -->
           <v-card

@@ -2,7 +2,7 @@
   <li>
     <v-row class="mt-3">
       <v-col cols="1">
-        <v-row class="author" justify="center" @click="enterProfile">
+        <v-row class="author justify-center" @click="enterProfile">
           <v-card
             class="portrait img"
             :img="author.image"
@@ -17,8 +17,7 @@
       <v-col cols="10" class="contentCol">
         <v-row
           v-if="content.length > 200 && lessContent"
-          justify="left"
-          class="content mb-3 ml-5 mr-5"
+          class="content mb-3 ml-5 mr-5 justify-left"
           >{{ cutContent }}
           <span class="loadMoreLess" @click="togglePostLength()"
             >... view more</span
@@ -27,15 +26,14 @@
 
         <v-row
           v-else-if="content.length > 200 && !lessContent"
-          justify="left"
-          class="content mb-3 ml-5 mr-5"
+          class="content mb-3 ml-5 mr-5 justify-left"
           >{{ content }}
           <span class="loadMoreLess" @click="togglePostLength()"
             >... view less</span
           >
         </v-row>
 
-        <v-row v-else justify="left" class="content mb-3 ml-5 mr-5"
+        <v-row v-else class="justify-left content mb-3 ml-5 mr-5"
           >{{ content }}
         </v-row>
       </v-col>

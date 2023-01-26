@@ -17,11 +17,11 @@ class ThreadPagination(PageNumberPagination):
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    # queryset = Post.objects.all()
+    queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-    def get_queryset(self):
-        return Post.objects.filter(thread=self.thread) 
+    # def get_queryset(self):
+    #     return Post.objects.filter(thread=self.thread) 
 
 
 class ThreadPagination(PageNumberPagination):

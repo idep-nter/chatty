@@ -66,7 +66,7 @@
 
 <script>
 export default {
-  emits: ['close-dialog', 'save-data'],
+  emits: ['close-dialog'],
   data() {
     return {
       valid: true,
@@ -101,7 +101,7 @@ export default {
           description: this.description,
           tags: this.tags,
         };
-        this.$emit('save-data', formData);
+        this.$store.dispatch('threads/addThread', formData);
       }
     },
     closeDialog() {

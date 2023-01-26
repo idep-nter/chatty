@@ -61,7 +61,7 @@
           :key="thread.id"
           :id="thread.id"
           :number="index + 1"
-          :title="thread.title"
+          :title="thread.name"
         >
         </thread-list-item>
 
@@ -75,7 +75,6 @@
               >
             </template>
             <create-thread-dialog
-              @save-data="saveData"
               @close-dialog="createThreadDialog = false"
             ></create-thread-dialog>
           </v-dialog>
@@ -97,6 +96,7 @@ export default {
       sortBy: '',
       searchedName: '',
       tagNames: [],
+      tags: [],
       searchedTags: [],
       showMyThreads: false,
       createThreadDialog: false,
@@ -105,14 +105,15 @@ export default {
     };
   },
   created() {
-    this.threads = this.$store.getters['threads/getThreads'];
+    this.loadThreads();
+    this.loadTags();
     this.getTagNames();
   },
   computed: {
     filteredThreads() {
       // filter by name
       let filtered = this.threads.filter((thread) => {
-        return thread.title
+        return thread.name
           .toLowerCase()
           .includes(this.searchedName.toLowerCase());
       });
@@ -140,8 +141,8 @@ export default {
       // sort
       if (this.sortBy == 'Alphabetically') {
         filtered.sort((a, b) => {
-          let ta = a.title.toLowerCase(),
-            tb = b.title.toLowerCase();
+          let ta = a.name.toLowerCase(),
+            tb = b.name.toLowerCase();
 
           if (ta < tb) {
             return -1;
@@ -163,9 +164,16 @@ export default {
     },
   },
   methods: {
+    async loadThreads() {
+      this.$store.dispatch('threads/loadThreads');
+      this.threads = this.$store.getters['threads/getThreads'];
+    },
+    async loadTags() {
+      this.$store.dispatch('threads/loadTags');
+      this.tags = this.$store.getters['threads/getTags'];
+    },
     getTagNames() {
-      const tags = this.$store.getters['threads/getTags'];
-      this.tagNames = tags.map(function (tag) {
+      this.tagNames = this.tags.map(function (tag) {
         return tag.name;
       });
     },
@@ -187,7 +195,7 @@ export default {
 </script>
 
 <style scoped>
-.sortBy{
+.sortBy {
   margin-top: 10px;
 }
 li {

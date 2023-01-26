@@ -22,10 +22,18 @@
         ></v-text-field>
 
         <v-text-field
-          v-model="name"
+          v-model="first_name"
           :rules="nameRules"
           :counter="30"
-          label="Name"
+          label="First name"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="last_name"
+          :rules="nameRules"
+          :counter="30"
+          label="Last name"
           required
         ></v-text-field>
 
@@ -37,20 +45,13 @@
         ></v-text-field>
 
         <v-text-field
-          v-model="image"
-          :rules="imageRules"
-          label="Image URL"
-          required
-        ></v-text-field>
-
-        <v-text-field
           autocomplete="current-password"
           :value="password"
           label="Password"
           :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="() => (value = !value)"
           :type="value ? 'password' : 'text'"
-          :rules="pswModeRules"
+          :rules="passwordRules"
           @input="(_) => (password = _)"
         ></v-text-field>
 
@@ -71,7 +72,6 @@
         <v-container class="mt-8 justify-center d-flex">
           <v-btn
             color="primary"
-            :small="buttonSize"
             class="mr-4"
             @click="closeDialog"
           >
@@ -96,12 +96,12 @@
 
 <script>
 export default {
-  emits: ['toggle-auth', 'close-dialog', 'register-auth'],
+  emits: ['toggle-auth', 'close-dialog', 'register'],
   data() {
     return {
       valid: true,
       value: true,
-      // value2: true,
+      value2: true,
       password: '',
       passwordRules: [
         (v) => !!v || 'Password is required!',
@@ -122,17 +122,11 @@ export default {
         (v) =>
           (v && v.length <= 20) || 'Username must be less than 20 characters!',
       ],
-      name: '',
+      first_name: '',
+      last_name: '',
       nameRules: [
         (v) => !!v || 'Name is required!',
         (v) => (v && v.length <= 30) || 'Name must be less than 30 characters!',
-      ],
-      image: '',
-      imageRules: [
-        (v) =>
-          /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(
-            v
-          ) || 'Must be a valid URL',
       ],
       email: '',
       emailRules: [
@@ -151,9 +145,9 @@ export default {
     closeDialog() {
       this.valid = true
       this.username = '';
-      this.name = '';
+      this.first_name = '';
+      this.last_name = '';
       this.email = '';
-      this.image = '';
       this.password = '';
       this.password2 = '';
       this.$refs.form.resetValidation();
@@ -171,13 +165,12 @@ export default {
 
       this.formData = {
         username: this.username,
-        name: this.name,
-        image: this.image,
+        first_name: this.first_name,
+        last_name: this.last_name,
         email: this.email,
         password: this.password,
       };
-
-      this.$emit('register-auth', this.formData);
+      this.$store.dispatch('auth/register', this.formData);
 
       if (this.showError) {
         this.errorMessage = 'Something went wrong! Please try again later.';

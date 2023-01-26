@@ -15,8 +15,8 @@
       <v-form ref="form" v-model="valid" lazy-validation class="pa-sm-4">
         <v-text-field
           v-model="username"
-          :rules="usrModeRules"
-          :counter="showCounter"
+          :rules="usernameRules"
+          :counter="20"
           label="Username"
           required
         ></v-text-field>
@@ -28,34 +28,24 @@
           :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="() => (value = !value)"
           :type="value ? 'password' : 'text'"
-          :rules="pswModeRules"
+          :rules="passwordRules"
           @input="(_) => (password = _)"
         ></v-text-field>
 
         <v-container>
           <v-container class="mt-8 justify-center d-flex">
-            <v-btn
-              color="primary"
-              :small="buttonSize"
-              class="mr-4"
-              @click="closeDialog"
-            >
+            <v-btn color="primary" class="mr-4" @click="closeDialog">
               Close
             </v-btn>
             <v-btn
               color="primary"
-              :small="buttonSize"
               :disabled="!valid"
               class="mr-4"
               @click="submitForm"
             >
               Log in
             </v-btn>
-            <v-btn
-              color="primary"
-              @click="toggleAuth()"
-              :small="buttonSize"
-              class="mr-4"
+            <v-btn color="primary" @click="toggleAuth()" class="mr-4"
               >Register instead</v-btn
             >
           </v-container>
@@ -70,7 +60,7 @@
 
 <script>
 export default {
-  emits: ['toggle-auth', 'close-dialog', 'login-auth'],
+  emits: ['toggle-auth', 'close-dialog', 'login'],
   data() {
     return {
       valid: true,
@@ -101,7 +91,7 @@ export default {
       this.$emit('toggle-auth');
     },
     closeDialog() {
-      this.valid = true
+      this.valid = true;
       this.password = '';
       this.username = '';
       this.$refs.form.resetValidation();
@@ -110,13 +100,13 @@ export default {
     validate() {
       this.$refs.form.validate();
     },
-    submitForm() {
+    async submitForm() {
       this.formData = {
         username: this.username,
         password: this.password,
       };
 
-      this.$emit('login-auth', this.formData);
+      await this.$store.dispatch('auth/login', this.formData);
 
       if (this.showError) {
         this.errorMessage = 'Failed to authenticate! Check your login data.';

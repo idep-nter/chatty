@@ -7,7 +7,7 @@
       class="pa-2 mb-3 itemCard"
     >
       <v-container class="d-flex justify-center pb-0"
-        ><h1>{{ thread.title }}</h1>
+        ><h1>{{ thread.name }}</h1>
         <v-dialog persistent v-model="infoDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-icon

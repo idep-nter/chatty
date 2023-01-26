@@ -68,25 +68,25 @@
           </v-dialog>
         </template>
 
-        <v-dialog persistent v-model="loginDialog" max-width="600px" v-else>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" color="primary" :small="true"
-              >Sign in</v-btn
-            >
-          </template>
-          <register-dialog
-            v-if="!loginMode"
-            @toggle-auth="toggleAuth"
-            @close-dialog="loginDialog = false"
-            @register-auth="registerAuth"
-          ></register-dialog>
-          <login-dialog
-            v-else
-            @toggle-auth="toggleAuth"
-            @close-dialog="loginDialog = false"
-            @login-auth="loginAuth"
-          ></login-dialog>
-        </v-dialog>
+        <template v-else>
+          <v-dialog persistent v-model="loginDialog" max-width="600px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn v-bind="attrs" v-on="on" color="primary" :small="true"
+                >Sign in</v-btn
+              >
+            </template>
+            <register-dialog
+              v-if="!loginMode"
+              @toggle-auth="toggleAuth"
+              @close-dialog="loginDialog = false"
+            ></register-dialog>
+            <login-dialog
+              v-else
+              @toggle-auth="toggleAuth"
+              @close-dialog="loginDialog = false"
+            ></login-dialog>
+          </v-dialog>
+        </template>
       </div>
     </v-toolbar>
   </v-card>
@@ -105,7 +105,8 @@ export default {
       loginDialog: false,
       logoutDialog: false,
       loginMode: true,
-      userId: 1, // dodelat dynamicky
+      userId: 45,
+      image: '',
       items: [
         {
           title: 'Profile',
@@ -151,8 +152,7 @@ export default {
   },
   computed: {
     loggedIn() {
-      // return this.$store.getters['auth/loggedIn'];
-      return true;
+      return this.$store.getters['auth/loggedIn'];
     },
     title() {
       switch (this.$vuetify.breakpoint.name) {
@@ -165,12 +165,10 @@ export default {
   },
   methods: {
     logout() {
-      this.dialog = false;
-      // this.$store.dispatch('auth/logout');
+      this.$store.dispatch('auth/logout');
+      this.loginDialog = false;
+      this.logoutDialog = false;
       this.$router.replace('/');
-    },
-    closeDialog() {
-      this.dialog = false;
     },
     handleClick(items, index) {
       items[index].click.call(this);
@@ -178,8 +176,12 @@ export default {
     toggleAuth() {
       this.loginMode = !this.loginMode;
     },
-    registerAuth() {},
-    loginAuth() {},
+  },
+  created() {
+    // this.$store.dispatch('users/getUserId');
+    // this.userId = this.$store.getters['users/getUserId']
+    // const user = this.$store.getters['users/getUserInfo'](this.userId);
+    // this.image = user.image;
   },
 };
 </script>

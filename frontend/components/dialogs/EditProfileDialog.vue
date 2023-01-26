@@ -22,10 +22,18 @@
         ></v-text-field>
 
         <v-text-field
-          v-model="name"
+          v-model="firstName"
           :rules="nameRules"
           :counter="30"
-          label="Name"
+          label="First name"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="lastName"
+          :rules="nameRules"
+          :counter="30"
+          label="Last name"
           required
         ></v-text-field>
 
@@ -104,7 +112,8 @@ export default {
         (v) =>
           (v && v.length <= 20) || 'Username must be less than 20 characters!',
       ],
-      name: this.userInfo.name,
+      firstName: this.userInfo.firstName,
+      lastName: this.userInfo.lastName,
       nameRules: [
         (v) => !!v || 'Name is required!',
         (v) => (v && v.length <= 30) || 'Name must be less than 30 characters!',
@@ -126,25 +135,31 @@ export default {
         (v) =>
           (v && v.length <= 200) || 'Name must be less than 200 characters',
       ],
-      formData: {},
       errorMessage: '',
     };
   },
   methods: {
     submitForm() {
       if (
-        this.$refs.form.validate() &&
-        this.enteredPassword === this.loadedPassword
+        this.$refs.form.validate() 
+        // && this.enteredPassword === this.loadedPassword
       ) {
         const formData = {
           id: this.userInfo.id,
+          password: this.userInfo.password,
           username: this.username,
-          name: this.name,
+          firstName: this.firstName,
+          lastName: this.lastName,
           email: this.email,
           image: this.image,
           aboutme: this.aboutme,
         };
-        this.$emit('save-data', formData);
+        this.$store.dispatch('users/editUser', formData);
+
+        if (this.showError) {
+        this.errorMessage = 'Failed to update profile info! Check input data.';
+        return;
+      }
       }
     },
     closeDialog() {
@@ -158,6 +173,10 @@ export default {
       this.aboutme = this.userInfo.aboutme;
       this.$emit('close-dialog');
     },
+  },
+  created() {
+    console.log(this.userInfo)
+    console.log(this.userInfo.password)
   },
   computed: {
     buttonSize() {

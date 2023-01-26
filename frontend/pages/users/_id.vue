@@ -7,15 +7,14 @@
           :img="userInfo.image"
           height="150"
           width="150"
-          v-bind="attrs"
-          v-on="on"
         ></v-card>
       </v-row>
       <v-row>
         <v-col class="left mt-10">
           <ul>
             <li>USERNAME:</li>
-            <li>NAME:</li>
+            <li>FIRST_NAME:</li>
+            <li>LAST_NAME:</li>
             <li>EMAIL:</li>
             <li>NUMBER OF POSTS</li>
             <li>REGISTERED</li>
@@ -24,7 +23,8 @@
         <v-col class="right mt-10">
           <ul>
             <li>{{ userInfo.username }}</li>
-            <li>{{ userInfo.name }}</li>
+            <li>{{ userInfo.firstName }}</li>
+            <li>{{ userInfo.lastName }}</li>
             <li>{{ userInfo.email }}</li>
             <li>{{ userInfo.postNum }}</li>
             <li>{{ userInfo.registered }}</li>
@@ -63,15 +63,15 @@ export default {
     return {
       editProfileDialog: false,
       userInfo: '',
-      id: '',
     };
   },
   methods: {
     saveData(payload) {},
   },
   created() {
-    this.id = this.$route.params.id;
-    this.userInfo = this.$store.getters['users/getUserInfo'](this.id);
+    const id = this.$route.params.id;
+    this.$store.dispatch('users/loadUsers');
+    this.userInfo = this.$store.getters['users/getUserInfo'](id)
   },
 };
 </script>
