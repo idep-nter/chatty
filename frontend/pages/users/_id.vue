@@ -27,7 +27,7 @@
             <li>{{ userInfo.lastName }}</li>
             <li>{{ userInfo.email }}</li>
             <li>{{ userInfo.postNum }}</li>
-            <li>{{ userInfo.registered }}</li>
+            <li>{{ formatedDate }}</li>
           </ul>
         </v-col>
       </v-row>
@@ -37,7 +37,7 @@
       <v-row class="about">
         <li>{{ userInfo.aboutme }}</li>
       </v-row>
-      <!-- IF current user === this user -->
+      <!-- IF id === currentUserId -->
       <v-row class="justify-center d-flex editBtn">
         <v-dialog persistent v-model="editProfileDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
@@ -56,6 +56,7 @@
 
 <script>
 import EditProfileDialog from '~/components/dialogs/EditProfileDialog.vue';
+import { formatDate } from '~/helperFunctions';
 
 export default {
   components: { EditProfileDialog },
@@ -63,15 +64,23 @@ export default {
     return {
       editProfileDialog: false,
       userInfo: '',
+      formatedDate: '',
+      id: '',
+      currentUserId: '',
     };
   },
   methods: {
     saveData(payload) {},
   },
   created() {
-    const id = this.$route.params.id;
+    this.id = this.$route.params.id
+    this.currentUserId = this.$store.getters['users/getUserId']
+
     this.$store.dispatch('users/loadUsers');
-    this.userInfo = this.$store.getters['users/getUserInfo'](id)
+    this.userInfo = this.$store.getters['users/getUserInfo'](this.id)
+
+    const date = this.userInfo.registered
+    this.formatedDate = formatDate(date)
   },
 };
 </script>

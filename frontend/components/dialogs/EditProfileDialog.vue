@@ -103,7 +103,6 @@ export default {
     return {
       valid: true,
       value: true,
-      // value2: true,
       enteredPassword: '',
       loadedPassword: this.userInfo.password,
       username: this.userInfo.username,

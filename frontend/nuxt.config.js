@@ -11,6 +11,9 @@ export default {
   head: {
     titleTemplate: '%s - chatty',
     title: 'chatty',
+    script: [
+      {}
+    ],
     htmlAttrs: {
       lang: 'en',
     },
