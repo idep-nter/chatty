@@ -70,6 +70,7 @@ export default {
   data() {
     return {
       valid: true,
+      errorMessage: false,
       name: '',
       nameRules: [
         (v) => !!v || 'Name is required',
@@ -101,6 +102,7 @@ export default {
           description: this.description,
           tags: this.tags,
         };
+        this.$store.dispatch('threads/loadTags');
         this.$store.dispatch('threads/addThread', formData);
       }
     },
@@ -111,16 +113,16 @@ export default {
       this.$emit('close-dialog');
     },
   },
-  // computed: {
-  //   buttonSize() {
-  //     switch (this.$vuetify.breakpoint.name) {
-  //       case 'xs':
-  //         return true;
-  //       default:
-  //         return false;
-  //     }
-  //   },
-  // },
+  computed: {
+    buttonSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return true;
+        default:
+          return false;
+      }
+    },
+  },
 };
 </script>
 

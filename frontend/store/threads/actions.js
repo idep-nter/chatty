@@ -2,31 +2,44 @@ import axios from 'axios';
 
 export default {
   async addThread(context, data) {
-    const tags = context.getters.getTags
-    // const new_tags = []
-    // for (const tag in data.tags) {
-    //   if (!tag in tags) {
-    //     new_tags.push(tag)
-    //   }
-    // }
-    // const threadData = {
-    //   title: data.name,
-    //   description: data.description,
-    //   tags: data.tags,
-    // };
+    const tags = context.getters.getTags;
+    const new_tags = [];
 
-    // await axios({
-    //   method: 'post',
-    //   url: 'http://localhost:8000/api/threads/',
-    //   data: threadData,
-    // });
+    for (let i = 0; i < data.tags.length; i++) {
+      if (!tags.some((tag) => tag.name === data.tags[i])) {
+        new_tags.push(data.tags[i]);
+      }
+    }
 
-    // context.commit('addThread', threadData);
-    // this.$router.replace('/threads');
+    for (let i = 0; i < new_tags.length; i++) {
+      this.dispatch('threads/addTag', new_tags[i]);
+    }
+
+    const tagIds = [];
+
+    data.tags.forEach((tag) => {
+      const tagId = this.getters['threads/getTagByName'](tag).id;
+      tagIds.push(tagId);
+    });
+
+    const threadData = {
+      title: data.name,
+      description: data.description,
+      tags: tagIds,
+    };
+
+    await axios({
+      method: 'post',
+      url: 'http://localhost:8000/api/threads/',
+      data: threadData,
+    });
+
+    context.commit('addThread', threadData);
+    this.$router.replace('/threads');
   },
   async addTag(context, data) {
     const tagData = {
-      name: data.name,
+      name: data,
     };
     await axios({
       method: 'post',
@@ -36,9 +49,7 @@ export default {
     context.commit('addTag', tagData);
   },
   async loadThreads(context, data) {
-    const response = await axios.get(
-      `http://localhost:8000/api/threads`
-    );
+    const response = await axios.get(`http://localhost:8000/api/threads`);
 
     const threads = [];
 
@@ -54,9 +65,7 @@ export default {
     context.commit('setThreads', threads);
   },
   async loadTags(context, data) {
-    const response = await axios.get(
-      `http://localhost:8000/api/tags`
-    );
+    const response = await axios.get(`http://localhost:8000/api/tags`);
 
     const tags = [];
 
@@ -65,6 +74,7 @@ export default {
         id: String(response.data[key].id),
         name: response.data[key].name,
       };
+      // const tag = response.data[key].name
       tags.push(tag);
     }
 
