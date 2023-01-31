@@ -60,3 +60,14 @@ export const formatDate = (date) => {
   const format = day + '/' + (month + 1) + '/' + year;
   return format;
 };
+
+export const formatPostDate = (date) => {
+  const newDate = new Date(date);
+  const hours = newDate.getHours();
+  const minutes = newDate.getMinutes() 
+  const day = newDate.getDate();
+  const month = newDate.getMonth();
+  const year = newDate.getFullYear();
+  const format = day + '/' + (month + 1) + '/' + year + ' ' + hours + ':' + minutes;
+  return format;
+};

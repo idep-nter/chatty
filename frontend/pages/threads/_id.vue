@@ -35,7 +35,12 @@
 
       <v-container class="justify-center d-flex mb-5">
         <v-btn @click="refresh()" class="mr-5" color="primary">Refresh</v-btn>
-        <v-btn v-if="posts.length > 3" @click="scrollToElement()" color="primary">Add post</v-btn>
+        <v-btn
+          v-if="posts.length > 3"
+          @click="scrollToElement()"
+          color="primary"
+          >Add post</v-btn
+        >
       </v-container>
 
       <v-container v-if="posts.length > 0" class="pb-0">
@@ -45,19 +50,16 @@
           :id="post.id"
           :author-id="post.author"
           :content="post.content"
-          :created="post.created"
+          :created="post.createdAt"
           :last="lastIndexCheck(index)"
         >
         </thread-post>
-  
-      <v-container class="mt-5 pt-0">
-        <v-pagination color="primary"></v-pagination>
+
+        <v-container class="mt-5 pt-0">
+          <v-pagination color="primary"></v-pagination>
+        </v-container>
       </v-container>
-    </v-container>
-    <v-container
-        v-else
-        class="d-flex justify-center noPosts"
-      >
+      <v-container v-else class="d-flex justify-center noPosts">
         <h2>No posts yet!</h2>
       </v-container>
 
@@ -79,10 +81,11 @@
           ></v-textarea>
         </v-container>
         <v-container class="d-flex justify-center pb-12 pt-0">
-          <v-btn color="primary" @click="submitForm()">Submit</v-btn>
+          <v-btn color="primary" @click="submitForm()" :disabled="!loggedIn"
+            >Submit</v-btn
+          >
         </v-container>
       </v-form>
-    
     </v-card>
   </v-container>
 </template>
@@ -111,6 +114,9 @@ export default {
     };
   },
   computed: {
+    loggedIn() {
+      return this.$store.getters['auth/loggedIn'];
+    },
   },
   methods: {
     lastIndexCheck(index) {
@@ -127,19 +133,20 @@ export default {
     submitForm() {
       if (this.$refs.form.validate()) {
         const formData = {
+          thread: this.id,
           post: this.post,
         };
-        this.$emit('save-data', formData);
+        this.$store.dispatch('threads/addPost', formData);
       }
     },
     refresh() {
-      this.posts = this.$store.getters['posts/getPosts'](this.id);
-    }
+      this.posts = this.$store.getters['threads/getThreadPosts'](this.id);
+    },
   },
   created() {
     this.id = this.$route.params.id;
     this.thread = this.$store.getters['threads/getThreadById'](this.id);
-    this.posts = this.$store.getters['posts/getPosts'](this.id);
+    this.posts = this.$store.getters['threads/getThreadPosts'](this.id);
     this.tags = this.$store.getters['threads/getThreadTags'](this.thread.tags);
   },
 };

@@ -37,6 +37,19 @@ export default {
     context.commit('addThread', threadData);
     this.$router.replace('/threads');
   },
+  async addPost(context, data) {
+    const postData = {
+      thread: data.thread,
+      content: data.post
+    }
+
+    await axios({
+      method: 'post',
+      url: 'http://localhost:8000/api/posts/',
+      data: postData,
+    });
+    context.commit('addPost', postData);
+  },
   async addTag(context, data) {
     const tagData = {
       name: data,

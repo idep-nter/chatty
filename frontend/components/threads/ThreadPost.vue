@@ -42,7 +42,7 @@
       <v-col cols="1">
         <v-row>
           <p>
-            {{ created }}
+            {{ formatedDate }}
           </p>
         </v-row>
       </v-col>
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { formatPostDate } from '~/helperFunctions';
+
 export default {
   props: ['id', 'author-id', 'content', 'created', 'last'],
   data() {
@@ -59,6 +61,7 @@ export default {
       author: '',
       cutContent: '',
       lessContent: true,
+      formatedDate: ''
     };
   },
   computed: {},
@@ -74,6 +77,8 @@ export default {
   created() {
     this.author = this.$store.getters['users/getUserInfo'](this.authorId);
     this.cutContent = this.content.slice(0, 454);
+    this.formatedDate = formatPostDate(this.created)
+
   },
 };
 </script>

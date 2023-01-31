@@ -5,6 +5,9 @@ export default {
   addTag(state, payload) {
     state.tags.push(payload);
   },
+  addPost(state, payload) {
+    state.posts.push(payload);
+  },
   setThreads(state, payload) {
     state.threads = payload;
   },
