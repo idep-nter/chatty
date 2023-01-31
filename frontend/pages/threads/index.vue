@@ -108,6 +108,9 @@ export default {
     this.loadThreads();
     this.loadTags();
     this.getTagNames();
+    this.$store.dispatch('threads/loadPosts');
+    this.$store.dispatch('users/loadUsers');
+    console.log(this.threads)
   },
   computed: {
     filteredThreads() {
@@ -167,6 +170,7 @@ export default {
     async loadThreads() {
       this.$store.dispatch('threads/loadThreads');
       this.threads = this.$store.getters['threads/getThreads'];
+      console.log(this.threads)
     },
     async loadTags() {
       this.$store.dispatch('threads/loadTags');
@@ -180,7 +184,7 @@ export default {
     getMyThreads() {
       const myThreads = [];
       this.threads.forEach((thread) => {
-        const posts = this.$store.getters['posts/getPosts'](thread.id);
+        const posts = this.$store.getters['threads/getPosts'](thread.id);
         posts.every((post) => {
           if (post.author === 1) {
             myThreads.push(thread.id);

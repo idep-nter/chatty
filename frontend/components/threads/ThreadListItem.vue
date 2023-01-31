@@ -38,16 +38,18 @@
 </template>
 
 <script>
+import { formatDate } from '~/helperFunctions';
+
 export default {
   props: ['id', 'number', 'title'],
   data() {
     return {
-      lastPost: ''
+      lastPost: '',
     }
   },
   computed: {
     lastUpdated() {
-      return this.lastPost.created
+      return formatDate(this.lastPost.updatedAt)
     },
     updatedBy() {
       return this.$store.getters['users/getUserInfo'](this.lastPost.author).username;
@@ -62,7 +64,7 @@ export default {
     },
   },
   created() {
-    this.lastPost = this.$store.getters['posts/getPosts'](this.id)[0]
+    this.lastPost = this.$store.getters['threads/getThreadPosts'](String(this.id))[0]
   }
 };
 </script>

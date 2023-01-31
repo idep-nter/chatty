@@ -1,4 +1,5 @@
 export default () => ({
   threads: [],
-  tags: []
+  tags: [],
+  posts: [],
 });

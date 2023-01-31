@@ -20,4 +20,10 @@ export default {
   getTagByName: (state) => (payload) => {
     return state.tags.find((tag) => tag.name == payload);
   },
+  getThreadPosts: (state) => (payload) => {
+    return state.posts.filter((post) => post.thread == payload);
+  },
+  getPosts(state) {
+    return state.posts;
+  },
 };

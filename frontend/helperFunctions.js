@@ -57,6 +57,6 @@ export const formatDate = (date) => {
   const day = newDate.getDate();
   const month = newDate.getMonth();
   const year = newDate.getFullYear();
-  const format = day + '/' + month + '/' + year;
+  const format = day + '/' + (month + 1) + '/' + year;
   return format;
 };

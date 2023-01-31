@@ -59,6 +59,8 @@ export default {
         name: response.data[key].title,
         tags: response.data[key].tags,
         description: response.data[key].description,
+        createdAt: response.data[key].created_at,
+        updatedAt: response.data[key].updated_at,
       };
       threads.push(thread);
     }
@@ -80,23 +82,22 @@ export default {
 
     context.commit('setTags', tags);
   },
-  // async loadPosts(context, data) {
-  //   const response = await axios.get(
-  //     `http://localhost:8000/api/posts`
-  //   );
-
-  //   const posts = [];
-
-  //   for (const key in response.data.results) {
-  //     const post = {
-  //       id: String(response.data.results[key].id),
-  //       author: response.data.results[key].author,
-  //       thread: response.data.results[key].thread,
-  //       content: response.data.results[key].content,
-  //     };
-  //     posts.push(post);
-  //   }
-
-  //   context.commit('setPosts', posts);
-  // },
+  async loadPosts(context, data) {
+    const response = await axios.get(`http://localhost:8000/api/posts`);
+  
+    const posts = [];
+  
+    for (const key in response.data) {
+      const post = {
+        id: String(response.data[key].id),
+        author: response.data[key].author,
+        thread: response.data[key].thread,
+        content: response.data[key].content,
+        createdAt: response.data[key].created_at,
+        updatedAt: response.data[key].updated_at,
+      };
+      posts.push(post);
+    }
+    context.commit('setPosts', posts);
+  },
 };
