@@ -37,11 +37,16 @@
       <v-row class="about">
         <li>{{ userInfo.aboutme }}</li>
       </v-row>
-      <!-- IF id === currentUserId -->
       <v-row class="justify-center d-flex editBtn">
         <v-dialog persistent v-model="editProfileDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" color="primary">Edit profile</v-btn>
+            <v-btn
+              v-bind="attrs"
+              v-on="on"
+              color="primary"
+              :disabled="!isCurrentUser"
+              >Edit profile</v-btn
+            >
           </template>
           <edit-profile-dialog
             :user-info="userInfo"
@@ -67,20 +72,32 @@ export default {
       formatedDate: '',
       id: '',
       currentUserId: '',
+      loggedIn: '',
     };
   },
   methods: {
     saveData(payload) {},
   },
+  computed: {
+    isCurrentUser() {
+      if (!this.loggedIn || this.id !== this.currentUserId) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+  },
   created() {
-    this.id = this.$route.params.id
-    this.currentUserId = this.$store.getters['users/getUserId']
+    this.id = this.$route.params.id;
+    this.currentUserId = this.$store.getters['users/getUserId'];
 
-    this.$store.dispatch('users/loadUsers');
-    this.userInfo = this.$store.getters['users/getUserInfo'](this.id)
+    // this.$store.dispatch('users/loadUsers');
+    this.userInfo = this.$store.getters['users/getUserInfo'](this.id);
 
-    const date = this.userInfo.registered
-    this.formatedDate = formatDate(date)
+    const date = this.userInfo.registered;
+    this.formatedDate = formatDate(date);
+
+    this.loggedIn = this.$store.getters['auth/loggedIn'];
   },
 };
 </script>

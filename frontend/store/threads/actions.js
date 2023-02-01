@@ -70,7 +70,7 @@ export default {
       const thread = {
         id: String(response.data[key].id),
         name: response.data[key].title,
-        tags: response.data[key].tags,
+        tags: response.data[key].tags.map(String),
         description: response.data[key].description,
         createdAt: response.data[key].created_at,
         updatedAt: response.data[key].updated_at,

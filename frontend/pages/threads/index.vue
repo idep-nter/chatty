@@ -102,6 +102,7 @@ export default {
       createThreadDialog: false,
       num: 0,
       threads: [],
+      currentUserId: '',
     };
   },
   created() {
@@ -109,8 +110,9 @@ export default {
     this.loadTags();
     this.getTagNames();
     this.$store.dispatch('threads/loadPosts');
-    this.$store.dispatch('users/loadUsers');
-    console.log(this.threads)
+    // this.$store.dispatch('users/loadUsers');
+    this.currentUserId = this.$store.getters['users/getUserId'];
+    console.log;
   },
   computed: {
     filteredThreads() {
@@ -170,7 +172,6 @@ export default {
     async loadThreads() {
       this.$store.dispatch('threads/loadThreads');
       this.threads = this.$store.getters['threads/getThreads'];
-      console.log(this.threads)
     },
     async loadTags() {
       this.$store.dispatch('threads/loadTags');
@@ -184,9 +185,11 @@ export default {
     getMyThreads() {
       const myThreads = [];
       this.threads.forEach((thread) => {
-        const posts = this.$store.getters['threads/getPosts'](thread.id);
+        const posts = this.$store.getters['threads/getThreadPosts'](thread.id);
+        console.log(posts);
         posts.every((post) => {
-          if (post.author === 1) {
+          if (post.author === this.currentUserId) {
+            // NEEED CHECK
             myThreads.push(thread.id);
             return false;
           }

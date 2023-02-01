@@ -178,6 +178,7 @@ export default {
     },
   },
   created() {
+    this.$store.dispatch('users/loadUsers');
     // this.$store.dispatch('users/getUserId');
     // this.userId = this.$store.getters['users/getUserId']
     // const user = this.$store.getters['users/getUserInfo'](this.userId);

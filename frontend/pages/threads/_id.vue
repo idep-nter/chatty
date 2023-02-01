@@ -137,6 +137,7 @@ export default {
           post: this.post,
         };
         this.$store.dispatch('threads/addPost', formData);
+        this.refresh();
       }
     },
     refresh() {
