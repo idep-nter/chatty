@@ -41,8 +41,8 @@ export default {
       data: userData,
     });
   },
-  async getUserId(context, data) {
+  async loadUserId(context, data) {
     const response = await axios.get(`http://localhost:8000/api/userId/`);
-    context.commit('setUserId', response.data);
+    context.commit('setUserId', String(response.data));
   },
 };

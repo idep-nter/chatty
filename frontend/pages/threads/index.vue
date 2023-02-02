@@ -112,7 +112,6 @@ export default {
     this.$store.dispatch('threads/loadPosts');
     // this.$store.dispatch('users/loadUsers');
     this.currentUserId = this.$store.getters['users/getUserId'];
-    console.log;
   },
   computed: {
     filteredThreads() {
@@ -186,10 +185,8 @@ export default {
       const myThreads = [];
       this.threads.forEach((thread) => {
         const posts = this.$store.getters['threads/getThreadPosts'](thread.id);
-        console.log(posts);
         posts.every((post) => {
           if (post.author === this.currentUserId) {
-            // NEEED CHECK
             myThreads.push(thread.id);
             return false;
           }

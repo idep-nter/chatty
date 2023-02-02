@@ -41,7 +41,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-card
                   class="portrait mr-4"
-                  img="https://placekitten.com/600/600"
+                  :img="image"
                   height="50"
                   width="50"
                   v-bind="attrs"
@@ -105,7 +105,7 @@ export default {
       loginDialog: false,
       logoutDialog: false,
       loginMode: true,
-      userId: 45,
+      userId: '',
       image: '',
       items: [
         {
@@ -163,6 +163,11 @@ export default {
       }
     },
   },
+  watch: {
+    loggedIn(val) {
+      this.loadStuff()
+    }
+  },
   methods: {
     logout() {
       this.$store.dispatch('auth/logout');
@@ -176,13 +181,17 @@ export default {
     toggleAuth() {
       this.loginMode = !this.loginMode;
     },
+    async loadStuff() {
+      await this.$store.dispatch('users/loadUsers');
+      await this.$store.dispatch('users/loadUserId');
+      this.userId = this.$store.getters['users/getUserId']
+      this.image = this.$store.getters['users/getUserInfo'](this.userId).image;
+    }
   },
   created() {
-    this.$store.dispatch('users/loadUsers');
-    // this.$store.dispatch('users/getUserId');
-    // this.userId = this.$store.getters['users/getUserId']
-    // const user = this.$store.getters['users/getUserInfo'](this.userId);
-    // this.image = user.image;
+    if (this.loggedIn) {
+      this.loadStuff()
+    }
   },
 };
 </script>

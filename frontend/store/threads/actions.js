@@ -103,8 +103,8 @@ export default {
     for (const key in response.data) {
       const post = {
         id: String(response.data[key].id),
-        author: response.data[key].author,
-        thread: response.data[key].thread,
+        author: String(response.data[key].author),
+        thread: String(response.data[key].thread),
         content: response.data[key].content,
         createdAt: response.data[key].created_at,
         updatedAt: response.data[key].updated_at,

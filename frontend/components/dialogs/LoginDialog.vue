@@ -60,12 +60,11 @@
 
 <script>
 export default {
-  emits: ['toggle-auth', 'close-dialog', 'login'],
+  emits: ['toggle-auth', 'close-dialog', 'load-stuff'],
   data() {
     return {
       valid: true,
       value: true,
-      // value2: true,
       password: '',
       passwordRules: [
         (v) => !!v || 'Password is required!',
