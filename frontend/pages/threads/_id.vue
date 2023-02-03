@@ -139,16 +139,14 @@ export default {
         await this.$store.dispatch('threads/addPost', formData);
 
         await this.$store.dispatch('users/loadUserId');
-        const id = this.$store.getters['users/getUserId']
-        const author = this.$store.getters['users/getUserInfo'](id)
-        await this.$store.dispatch('users/addPostCount', author)
-        this.refresh();
+        const id = this.$store.getters['users/getUserId'];
+        const author = this.$store.getters['users/getUserInfo'](id);
+        await this.$store.dispatch('users/addPostCount', author);
+        
+        await this.$store.dispatch('threads/loadPosts');
+        this.posts = this.$store.getters['threads/getThreadPosts'](this.id);
       }
     },
-    async refresh() {
-      this.posts = this.$store.getters['threads/getThreadPosts'](this.id);
-    },
-    loadStuff() {}
   },
   created() {
     this.id = this.$route.params.id;
