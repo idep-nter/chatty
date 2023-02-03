@@ -47,6 +47,7 @@
               <v-checkbox
                 v-model="showMyThreads"
                 label="My Threads"
+                :disabled="!loggedIn"
               ></v-checkbox>
             </v-container>
           </v-col>
@@ -110,10 +111,13 @@ export default {
     this.loadTags();
     this.getTagNames();
     this.$store.dispatch('threads/loadPosts');
-    // this.$store.dispatch('users/loadUsers');
+    this.$store.dispatch('users/loadUsers');
     this.currentUserId = this.$store.getters['users/getUserId'];
   },
   computed: {
+    loggedIn() {
+      return this.$store.getters['auth/loggedIn'];
+    },
     filteredThreads() {
       // filter by name
       let filtered = this.threads.filter((thread) => {

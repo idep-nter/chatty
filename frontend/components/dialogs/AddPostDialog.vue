@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <v-card>
     <v-container>
       <v-alert
@@ -71,9 +71,13 @@ export default {
     submitForm() {
       if (this.$refs.form.validate()) {
         const formData = {
+          thread: this.id,
           post: this.post,
+          author: this.$store.dispatch('users/loadUserId'),
         };
-        this.$emit('save-data', formData);
+        this.$store.dispatch('threads/addPost', formData);
+        console.log('fwafa')
+        // this.refresh();
       }
     },
     closeDialog() {
@@ -111,4 +115,4 @@ h1 {
     padding-bottom: 50px !important;
   }
 } */
-</style>
+</style> -->

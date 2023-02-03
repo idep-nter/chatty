@@ -189,9 +189,7 @@ export default {
     }
   },
   created() {
-    if (this.loggedIn) {
-      this.loadStuff()
-    }
+    this.loadStuff()
   },
 };
 </script>

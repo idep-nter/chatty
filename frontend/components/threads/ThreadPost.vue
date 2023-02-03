@@ -3,8 +3,7 @@
     <v-row class="mt-3">
       <v-col cols="1">
         <v-row class="author justify-center" @click="enterProfile">
-          <v-card
-            class="portrait img"
+          <v-card 
             :img="author.image"
             height="40"
             width="40"

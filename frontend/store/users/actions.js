@@ -3,7 +3,7 @@ import axios from 'axios';
 export default {
   async loadUsers(context, data) {
     const response = await axios.get(`http://0.0.0.0:8000/api/users/`);
-    
+
     const users = [];
 
     for (const key in response.data) {
@@ -34,7 +34,7 @@ export default {
       image: data.image,
       about_me: data.aboutme,
     };
-    console.log(userData)
+    console.log(userData);
     await axios({
       method: 'put',
       url: 'http://0.0.0.0:8000/api/users/' + data.id + '/',
@@ -44,5 +44,17 @@ export default {
   async loadUserId(context, data) {
     const response = await axios.get(`http://localhost:8000/api/userId/`);
     context.commit('setUserId', String(response.data));
+  },
+  async addPostCount(context, data) {
+    await axios({
+      method: 'put',
+      url: 'http://0.0.0.0:8000/api/users/' + data.id + '/',
+      data: {
+        username: data.username,
+        password: data.password,
+        email: data.email,
+        number_of_posts: data.postNum + 1,
+      },
+    });
   },
 };

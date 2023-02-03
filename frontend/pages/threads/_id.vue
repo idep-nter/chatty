@@ -27,7 +27,7 @@
       </v-container>
       <v-container class="d-flex justify-center pt-0">
         <v-chip-group>
-          <v-chip v-for="tag in tags" :key="tag">
+          <v-chip v-for="tag in tags" :key="tag.id">
             {{ tag.name }}
           </v-chip>
         </v-chip-group>
@@ -130,19 +130,25 @@ export default {
     scrollToElement() {
       this.$refs.addPost.$el.scrollIntoView({ behavior: 'smooth' });
     },
-    submitForm() {
+    async submitForm() {
       if (this.$refs.form.validate()) {
         const formData = {
           thread: this.id,
           post: this.post,
         };
-        this.$store.dispatch('threads/addPost', formData);
+        await this.$store.dispatch('threads/addPost', formData);
+
+        await this.$store.dispatch('users/loadUserId');
+        const id = this.$store.getters['users/getUserId']
+        const author = this.$store.getters['users/getUserInfo'](id)
+        await this.$store.dispatch('users/addPostCount', author)
         this.refresh();
       }
     },
-    refresh() {
+    async refresh() {
       this.posts = this.$store.getters['threads/getThreadPosts'](this.id);
     },
+    loadStuff() {}
   },
   created() {
     this.id = this.$route.params.id;
