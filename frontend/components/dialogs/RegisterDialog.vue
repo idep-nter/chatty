@@ -70,11 +70,7 @@
           <a href="/">Forgot password?</a>
         </v-container>
         <v-container class="mt-8 justify-center d-flex">
-          <v-btn
-            color="primary"
-            class="mr-4"
-            @click="closeDialog"
-          >
+          <v-btn color="primary" class="mr-4" @click="closeDialog">
             Close
           </v-btn>
           <v-btn
@@ -96,7 +92,7 @@
 
 <script>
 export default {
-  emits: ['toggle-auth', 'close-dialog', 'register'],
+  emits: ['toggle-auth', 'close-dialog', 'reg-success'],
   data() {
     return {
       valid: true,
@@ -137,13 +133,22 @@ export default {
       errorMessage: '',
     };
   },
-  computed: {},
+  computed: {
+    showError: {
+      get() {
+        return this.$store.getters['auth/getError'];
+      },
+      set(err) {
+        return err;
+      },
+    },
+  },
   methods: {
     toggleAuth() {
       this.$emit('toggle-auth');
     },
     closeDialog() {
-      this.valid = true
+      this.valid = true;
       this.username = '';
       this.first_name = '';
       this.last_name = '';
@@ -151,6 +156,7 @@ export default {
       this.password = '';
       this.password2 = '';
       this.$refs.form.resetValidation();
+      this.errorMessage = '';
       this.$emit('close-dialog');
     },
     validate() {
@@ -158,11 +164,9 @@ export default {
     },
     submitForm() {
       this.validate();
-
       if (!this.valid) {
         return;
       }
-
       this.formData = {
         username: this.username,
         first_name: this.first_name,
@@ -171,6 +175,7 @@ export default {
         password: this.password,
       };
       this.$store.dispatch('auth/register', this.formData);
+      this.$emit('reg-success');
 
       if (this.showError) {
         this.errorMessage = 'Something went wrong! Please try again later.';

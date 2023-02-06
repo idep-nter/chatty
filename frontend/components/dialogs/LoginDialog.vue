@@ -11,6 +11,16 @@
       >
         {{ errorMessage }}
       </v-alert>
+      <v-alert
+        dense
+        outlined
+        type="success"
+        v-if="registered"
+        class="justify-center mx-auto mt-15 logAlert"
+        max-width="500"
+      >
+        {{ successMessage }}
+      </v-alert>
       <h1>Log in</h1>
       <v-form ref="form" v-model="valid" lazy-validation class="pa-sm-4">
         <v-text-field
@@ -61,6 +71,7 @@
 <script>
 export default {
   emits: ['toggle-auth', 'close-dialog', 'load-stuff'],
+  props: ['registered'],
   data() {
     return {
       valid: true,
@@ -82,9 +93,19 @@ export default {
       ],
       formData: {},
       errorMessage: '',
+      successMessage: 'Successfully registered! Please log-in!',
     };
   },
-  computed: {},
+  computed: {
+    showError: {
+      get() {
+        return this.$store.getters['auth/getError'];
+      },
+      set(err) {
+        return err;
+      },
+    },
+  },
   methods: {
     toggleAuth() {
       this.$emit('toggle-auth');
@@ -94,12 +115,17 @@ export default {
       this.password = '';
       this.username = '';
       this.$refs.form.resetValidation();
+      this.errorMessage = '';
       this.$emit('close-dialog');
     },
     validate() {
       this.$refs.form.validate();
     },
     async submitForm() {
+      this.validate();
+      if (!this.valid) {
+        return;
+      }
       this.formData = {
         username: this.username,
         password: this.password,

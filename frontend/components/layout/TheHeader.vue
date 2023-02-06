@@ -79,9 +79,11 @@
               v-if="!loginMode"
               @toggle-auth="toggleAuth"
               @close-dialog="loginDialog = false"
+              @reg-success="regSuccess"
             ></register-dialog>
             <login-dialog
               v-else
+              :registered="registered"
               @toggle-auth="toggleAuth"
               @close-dialog="loginDialog = false"
             ></login-dialog>
@@ -105,6 +107,7 @@ export default {
       loginDialog: false,
       logoutDialog: false,
       loginMode: true,
+      registered: false,
       userId: '',
       image: '',
       items: [
@@ -178,7 +181,12 @@ export default {
     handleClick(items, index) {
       items[index].click.call(this);
     },
+    regSuccess() {
+      this.registered = true
+      this.loginMode = !this.loginMode;
+    },
     toggleAuth() {
+      this.registered = false
       this.loginMode = !this.loginMode;
     },
     async loadStuff() {
@@ -186,7 +194,7 @@ export default {
       await this.$store.dispatch('users/loadUserId');
       this.userId = this.$store.getters['users/getUserId']
       this.image = this.$store.getters['users/getUserInfo'](this.userId).image;
-    }
+    },
   },
   created() {
     this.loadStuff()

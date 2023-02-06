@@ -144,9 +144,12 @@ export default {
         await this.$store.dispatch('users/addPostCount', author);
         
         await this.$store.dispatch('threads/loadPosts');
-        this.posts = this.$store.getters['threads/getThreadPosts'](this.id);
+        this.refresh()
       }
     },
+    refresh() {
+      this.posts = this.$store.getters['threads/getThreadPosts'](this.id);
+    }
   },
   created() {
     this.id = this.$route.params.id;
