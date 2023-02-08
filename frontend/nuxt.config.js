@@ -11,9 +11,7 @@ export default {
   head: {
     titleTemplate: '%s - chatty',
     title: 'chatty',
-    script: [
-      {}
-    ],
+    script: [],
     htmlAttrs: {
       lang: 'en',
     },
@@ -23,6 +21,7 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
+      { name: 'csrf-token', content: 'csrf_token()' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -31,7 +30,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/init.client.js"],
+  plugins: [
+    '~/plugins/init.client.js',
+    '~/plugins/csrf.js',
+    '~/plugins/api.client.js',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -43,7 +46,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/style-resources', '@nuxtjs/axios'],
+  modules: ['@nuxtjs/style-resources', '@privyid/nuxt-csrf', '@nuxtjs/axios'],
 
   styleResources: {
     scss: ['~/assets/scss/*.scss'],

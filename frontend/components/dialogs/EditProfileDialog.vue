@@ -63,6 +63,7 @@
           autocomplete="current-password"
           :value="enteredPassword"
           label="Current password"
+          v-model="enteredPassword"
           :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="() => (value = !value)"
           :type="value ? 'password' : 'text'"
@@ -97,7 +98,7 @@
 
 <script>
 export default {
-  emits: ['close-dialog'],
+  emits: ['close-dialog', 'edited'],
   props: ['user-info'],
   data() {
     return {
@@ -138,10 +139,10 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
+      const check =  await this.$store.dispatch('users/checkPassword', this.enteredPassword)
       if (
-        this.$refs.form.validate() 
-        // && this.enteredPassword === this.loadedPassword
+        this.$refs.form.validate() && check === 'True'
       ) {
         const formData = {
           id: this.userInfo.id,
@@ -153,29 +154,26 @@ export default {
           image: this.image,
           aboutme: this.aboutme,
         };
-        this.$store.dispatch('users/editUser', formData);
+        await this.$store.dispatch('users/editUser', formData);
+        this.closeDialog()
 
         if (this.showError) {
-        this.errorMessage = 'Failed to update profile info! Check input data.';
-        return;
-      }
+          this.errorMessage =
+            'Failed to update profile info! Check input data.';
+          return;
+        }
+      } else {
+        this.errorMessage = 'Wrong password!'
       }
     },
     closeDialog() {
       this.valid = true;
       this.$refs.form.resetValidation();
       this.enteredPassword = '';
-      this.loadedPassword = this.userInfo.password;
-      this.username = this.userInfo.username;
-      this.email = this.userInfo.email;
-      this.image = this.userInfo.image;
-      this.aboutme = this.userInfo.aboutme;
       this.$emit('close-dialog');
     },
   },
   created() {
-    console.log(this.userInfo)
-    console.log(this.userInfo.password)
   },
   computed: {
     buttonSize() {

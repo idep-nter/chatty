@@ -50,8 +50,7 @@
           </template>
           <edit-profile-dialog
             :user-info="userInfo"
-            @save-data="saveData"
-            @close-dialog="editProfileDialog = false"
+            @close-dialog="closeDialog"
           ></edit-profile-dialog>
         </v-dialog>
       </v-row>
@@ -76,7 +75,12 @@ export default {
     };
   },
   methods: {
-    saveData(payload) {},
+    async closeDialog() {
+      this.editProfileDialog = false
+      await this.$store.dispatch('users/loadUsers');
+      this.userInfo = this.$store.getters['users/getUserInfo'](this.id);
+      console.log(this.userInfo)
+    }
   },
   computed: {
     isCurrentUser() {

@@ -42,8 +42,19 @@ export default {
     });
   },
   async loadUserId(context, data) {
-    const response = await axios.get(`http://localhost:8000/api/userId/`);
+    const response = await axios.get(`http://localhost:8000/api/user-id/`);
     context.commit('setUserId', String(response.data));
+  },
+  async checkPassword(context, data) {
+    const pswData = {
+      psw: data,
+    };
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost:8000/api/check-password/',
+      data: pswData,
+    });
+    return response.data
   },
   async addPostCount(context, data) {
     await axios({
