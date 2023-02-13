@@ -79,7 +79,6 @@ export default {
       this.editProfileDialog = false
       await this.$store.dispatch('users/loadUsers');
       this.userInfo = this.$store.getters['users/getUserInfo'](this.id);
-      console.log(this.userInfo)
     }
   },
   computed: {

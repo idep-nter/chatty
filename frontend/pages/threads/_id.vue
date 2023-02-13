@@ -1,7 +1,7 @@
 <template>
   <v-container class="mt-12 mainRow d-flex justify-center">
     <v-card
-      max-width="1400"
+      width="1200"
       min-height="819"
       max-height="auto"
       class="pa-2 mb-3 itemCard"
@@ -81,7 +81,7 @@
           ></v-textarea>
         </v-container>
         <v-container class="d-flex justify-center pb-12 pt-0">
-          <v-btn color="primary" @click="submitForm()" :disabled="!loggedIn"
+          <v-btn color="primary" @click="submitForm()" :disabled="!loggedIn||!post" 
             >Submit</v-btn
           >
         </v-container>
@@ -107,9 +107,12 @@ export default {
       valid: true,
       post: '',
       postRules: [
-        (v) => !!v || 'Message is required',
-        (v) =>
-          (v && v.length <= 999) || 'Message must be less than 999 characters',
+      (v) => {
+          if (v.length > 999)  {
+            return 'You must enter a first name.'
+          }  
+          return true
+        },
       ],
     };
   },
@@ -149,6 +152,7 @@ export default {
     },
     refresh() {
       this.posts = this.$store.getters['threads/getThreadPosts'](this.id);
+      this.post = ''
     }
   },
   created() {

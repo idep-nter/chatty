@@ -1,7 +1,7 @@
 <template>
   <v-row class="mt-12 mainRow d-flex justify-center">
     <v-col md="8" sm="7" class>
-      <v-card max-width="1400" height="100" class="pa-2 filterCard">
+      <v-card width="1400" height="100" class="pa-2 filterCard">
         <v-row>
           <v-col cols="4">
             <v-text-field
@@ -56,7 +56,7 @@
     </v-col>
 
     <v-col md="8" sm="7">
-      <v-card max-width="1400" height="695" class="pa-2 itemCard">
+      <v-card width="1400" height="695" class="pa-2 itemCard">
         <thread-list-item
           v-for="(thread, index) in filteredThreads"
           :key="thread.id"

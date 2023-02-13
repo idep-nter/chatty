@@ -43,6 +43,7 @@ h2 {
 }
 p {
   color: $primaryColor;
+  text-align: center;
 }
 /* Smartphones */
 /* @media (max-width: 767px) {

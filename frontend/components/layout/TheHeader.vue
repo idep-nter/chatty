@@ -140,8 +140,10 @@ export default {
         },
         {
           index: 1,
-          text: 'TBD',
-          click() {},
+          text: 'users',
+          click() {
+            this.$router.push('/users');
+          },
         },
         {
           index: 2,
@@ -197,7 +199,10 @@ export default {
     },
   },
   created() {
-    this.loadStuff()
+    const logged = this.$store.getters['auth/loggedIn']
+    if (logged) {
+      this.loadStuff()
+    }
   },
 };
 </script>

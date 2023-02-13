@@ -1,22 +1,20 @@
 <template>
   <li>
-    <v-row class="mt-3">
+    <v-row class="mt-3 mb-3">
       <v-col cols="1">
-        <v-row class="author justify-center" @click="enterProfile">
-          <v-card 
-            :img="author.image"
-            height="40"
-            width="40"
-          ></v-card>
-          <div id="username">
+        <div class="author mb-3 mt-1" @click="enterProfile">
+          <v-row class="justify-center">
+            <v-card :img="author.image" height="40" width="40"></v-card>
+          </v-row>
+          <v-row id="username" class="justify-center">
             <p>{{ author.username }}</p>
-          </div>
-        </v-row>
+          </v-row>
+        </div>
       </v-col>
       <v-col cols="10" class="contentCol">
         <v-row
-          v-if="content.length > 200 && lessContent"
-          class="content mb-3 ml-5 mr-5 justify-left"
+          v-if="content.length > 454 && lessContent"
+          class="ml-5 mr-5 justify-left"
           >{{ cutContent }}
           <span class="loadMoreLess" @click="togglePostLength()"
             >... view more</span
@@ -24,8 +22,8 @@
         </v-row>
 
         <v-row
-          v-else-if="content.length > 200 && !lessContent"
-          class="content mb-3 ml-5 mr-5 justify-left"
+          v-else-if="content.length > 454 && !lessContent"
+          class="ml-5 mr-5 justify-left"
           >{{ content }}
           <span class="loadMoreLess" @click="togglePostLength()"
             >... view less</span
@@ -38,10 +36,15 @@
       </v-col>
       <v-spacer></v-spacer>
 
-      <v-col cols="1">
+      <v-col cols="1" class="mb-5">
         <v-row>
           <p>
-            {{ formatedDate }}
+            {{ date }}
+          </p>
+        </v-row>
+        <v-row class="mt-0">
+          <p>
+            {{ time }}
           </p>
         </v-row>
       </v-col>
@@ -52,7 +55,6 @@
 
 <script>
 import { formatPostDate } from '~/helperFunctions';
-
 export default {
   props: ['id', 'author-id', 'content', 'created', 'last'],
   data() {
@@ -60,7 +62,8 @@ export default {
       author: '',
       cutContent: '',
       lessContent: true,
-      formatedDate: ''
+      date: '',
+      time: '',
     };
   },
   computed: {},
@@ -70,14 +73,13 @@ export default {
     },
     togglePostLength() {
       this.lessContent = !this.lessContent;
-      console.log(this.lessContent);
     },
   },
   created() {
     this.author = this.$store.getters['users/getUserInfo'](this.authorId);
     this.cutContent = this.content.slice(0, 454);
-    this.formatedDate = formatPostDate(this.created)
-
+    this.date = formatPostDate(this.created).split(" ")[0];
+    this.time = formatPostDate(this.created).split(" ")[1];
   },
 };
 </script>
@@ -91,7 +93,6 @@ li {
   cursor: pointer;
   margin-top: 0px;
 }
-
 .loadMoreLess {
   color: $primaryColor;
   font-weight: bold;
@@ -99,15 +100,9 @@ li {
   cursor: pointer;
   // font-size: 20px;
 }
+.contentCol {
+  // padding-top: 0px;
+  position: relative;
+}
 
-// .contentCol {
-//   position: relative;
-// }
-
-// .content {
-//   position: absolute;
-//   bottom: 0%;
-//   left: 0%;
-//   right: 0%;
-// }
 </style>
