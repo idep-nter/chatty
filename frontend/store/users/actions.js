@@ -18,6 +18,7 @@ export default {
         postNum: response.data[key].number_of_posts,
         registered: response.data[key].date_joined,
         password: response.data[key].password,
+        // isOnline: response.data[key].is_online,
       };
       users.push(user);
     }
@@ -55,6 +56,11 @@ export default {
       data: pswData,
     });
     return response.data
+  },
+  async loadOnlineUsers(context, data) {
+    const response = await axios.get(`http://localhost:8000/api/online-users/`);
+    console.log(response.data)
+    // context.commit('setOnlineUsers', String(response.data));
   },
   async addPostCount(context, data) {
     await axios({

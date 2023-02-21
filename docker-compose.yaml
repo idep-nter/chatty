@@ -8,8 +8,8 @@ services:
       - ./.env
   backend:
     build: ./backend
-    entrypoint: python manage.py
-    command: runserver 0.0.0.0:8000
+    # entrypoint: python manage.py
+    # command: runserver 0.0.0.0:8000
     volumes:
       - ./backend:/app
     ports:

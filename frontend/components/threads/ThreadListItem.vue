@@ -12,7 +12,7 @@
       <v-spacer></v-spacer>
 
       <v-col cols="3" class="pl-0 pr-0">
-        <v-row class="justify-rigth" v-if="lastPost">
+        <v-row class="justify-right" v-if="lastPost">
           <!-- <v-divider vertical 
       ></v-divider> -->
           <v-card

@@ -106,12 +106,12 @@ export default {
       currentUserId: '',
     };
   },
-  created() {
-    this.loadThreads();
-    this.loadTags();
-    this.getTagNames();
-    this.$store.dispatch('threads/loadPosts');
-    this.$store.dispatch('users/loadUsers');
+  async created() {
+    await this.loadThreads();
+    await this.loadTags();
+    await this.getTagNames();
+    await this.$store.dispatch('threads/loadPosts');
+    await this.$store.dispatch('users/loadUsers');
     this.currentUserId = this.$store.getters['users/getUserId'];
   },
   computed: {

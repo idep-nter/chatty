@@ -10,7 +10,9 @@ class CustomUser(AbstractUser):
   password = models.CharField(max_length=255)
   about_me = models.TextField(max_length=999, null=True)
   number_of_posts = models.IntegerField(null=True)
+  # is_online = models.BooleanField(default=False)
   # registration_date = models.DateField(null=True)
 
   def __str__(self):
         return self.username
+

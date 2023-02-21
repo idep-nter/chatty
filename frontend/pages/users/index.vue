@@ -3,7 +3,7 @@
     <v-col md="8" sm="7" class>
       <v-card width="1400" height="100" class="pa-2 filterCard">
         <v-row>
-          <v-col cols="4">
+          <v-col cols="7">
             <v-text-field
               dense
               class="ml-5 mt-6"
@@ -41,14 +41,13 @@
     </v-col>
     <v-col md="8" sm="7">
       <v-card width="1400" height="695" class="pa-2 itemCard">
-        <!-- <user-list-item
-          v-for="(thread, index) in filteredUsers"
-          :key="thread.id"
-          :id="thread.id"
+        <user-list-item
+          v-for="(user, index) in filteredUsers"
+          :key="user.id"
+          :id="user.id"
           :number="index + 1"
-          :title="thread.name"
         >
-        </user-list-item> -->
+        </user-list-item>
 
         <v-pagination id="pagination" color="primary"></v-pagination>
       </v-card>
@@ -64,16 +63,22 @@ export default {
   components: { UserListItem },
   data() {
     return {
-      users: []
+      users: [],
+      searchedName: '',
+      sortBy: '',
+      sorts: ['Alphabetically', 'Date of registration']
     };
   },
-  created() {
+  async created() {
+    await this.$store.dispatch('users/loadUsers');
     // this.$store.dispatch('users/loadUsers');
     this.users = this.$store.getters['users/getUsers']
+
+    await this.$store.dispatch('users/loadOnlineUsers');
+    console.log(this.users)
   },
   computed: {
     onlineUsers() {
-
     },
     filteredUsers() {
       // filter by name
@@ -96,12 +101,12 @@ export default {
           }
           return 0;
         });
-      // } else if (this.sortBy == 'Date of registration') {
-      //   filtered.sort((a, b) => {
-      //     let da = new Date(a.registered),
-      //       db = new Date(b.registered);
-      //     return da - db;
-      //   });
+      } else if (this.sortBy == 'Date of registration') {
+        filtered.sort((a, b) => {
+          let da = new Date(a.registered),
+            db = new Date(b.registered);
+          return da - db;
+        });
       }
 
       return filtered;
