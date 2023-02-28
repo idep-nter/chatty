@@ -3,8 +3,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.deprecation import MiddlewareMixin
 
-# from django.contrib.auth.models import AbstractUser
-
 
 ONLINE_THRESHOLD = getattr(settings, 'ONLINE_THRESHOLD', 60 * 15)
 ONLINE_MAX = getattr(settings, 'ONLINE_MAX', 50)
